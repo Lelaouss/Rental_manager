@@ -162,7 +162,6 @@ CREATE TABLE rent
 (
     id_rent           Int Auto_increment NOT NULL,
     id_property       Int                NOT NULL,
-    id_person         Int,
     start_date        Datetime           NOT NULL,
     end_date          Datetime,
     rent_amount       Float              NOT NULL,
@@ -171,8 +170,7 @@ CREATE TABLE rent
     rent_guarantee    Float              NOT NULL,
     furnished         TinyINT            NOT NULL,
     CONSTRAINT rent_PK PRIMARY KEY (id_rent),
-    CONSTRAINT rent_property_FK FOREIGN KEY (id_property) REFERENCES property (id_property),
-    CONSTRAINT rent_person0_FK FOREIGN KEY (id_person) REFERENCES person (id_person)
+    CONSTRAINT rent_property_FK FOREIGN KEY (id_property) REFERENCES property (id_property)
 ) ENGINE = InnoDB;
 
 
@@ -183,10 +181,10 @@ CREATE TABLE rent
 CREATE TABLE property__owner
 (
     id_property Int NOT NULL,
-    id_person   Int NOT NULL,
-    CONSTRAINT property__owner_PK PRIMARY KEY (id_property, id_person),
+    id_owner   Int NOT NULL,
+    CONSTRAINT property__owner_PK PRIMARY KEY (id_property, id_owner),
     CONSTRAINT property__owner_property_FK FOREIGN KEY (id_property) REFERENCES property (id_property),
-    CONSTRAINT property__owner_person0_FK FOREIGN KEY (id_person) REFERENCES person (id_person)
+    CONSTRAINT property__owner_person0_FK FOREIGN KEY (id_owner) REFERENCES person (id_person)
 ) ENGINE = InnoDB;
 
 
@@ -197,11 +195,25 @@ CREATE TABLE property__owner
 CREATE TABLE person__rent
 (
     id_rent     Int     NOT NULL,
-    id_person   Int     NOT NULL,
+    id_tenant   Int     NOT NULL,
     main_tenant TinyINT NOT NULL,
-    CONSTRAINT person__rent_PK PRIMARY KEY (id_rent, id_person),
+    CONSTRAINT person__rent_PK PRIMARY KEY (id_rent, id_tenant),
     CONSTRAINT person__rent_rent_FK FOREIGN KEY (id_rent) REFERENCES rent (id_rent),
-    CONSTRAINT person__rent_person0_FK FOREIGN KEY (id_person) REFERENCES person (id_person)
+    CONSTRAINT person__rent_person0_FK FOREIGN KEY (id_tenant) REFERENCES person (id_person)
+) ENGINE = InnoDB;
+
+
+#------------------------------------------------------------
+# Table: person__rent__guarantor
+#------------------------------------------------------------
+
+CREATE TABLE person__rent__guarantor
+(
+    id_rent_guarantor   Int NOT NULL,
+    id_guarantor Int NOT NULL,
+    CONSTRAINT person__rent__guarantor_PK PRIMARY KEY (id_rent_guarantor, id_guarantor),
+    CONSTRAINT person__rent__guarantor_rent_FK FOREIGN KEY (id_rent_guarantor) REFERENCES rent (id_rent),
+    CONSTRAINT person__rent__guarantor_person0_FK FOREIGN KEY (id_guarantor) REFERENCES person (id_person)
 ) ENGINE = InnoDB;
 
 
