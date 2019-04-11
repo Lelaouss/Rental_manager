@@ -10,10 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
  * Person
  *
  * @ORM\Table(name="person", indexes={@ORM\Index(name="person_adress_FK", columns={"id_adress"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
  */
 class Person
 {
+	const GENDER_FEMALE = "Mme";
+	const GENDER_MALE = "M.";
+	
     /**
      * @var int
      *
@@ -42,7 +45,7 @@ class Person
      *
      * @ORM\Column(name="middle_name", type="string", length=255, nullable=true, options={"default"="NULL"})
      */
-    private $middleName = 'NULL';
+    private $middleName = NULL;
 
     /**
      * @var bool
@@ -56,49 +59,49 @@ class Person
      *
      * @ORM\Column(name="birthday", type="datetime", nullable=true, options={"default"="NULL"})
      */
-    private $birthday = 'NULL';
+    private $birthday = NULL;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="mail", type="string", length=255, nullable=true, options={"default"="NULL"})
      */
-    private $mail = 'NULL';
+    private $mail = NULL;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="cell_phone", type="string", length=45, nullable=true, options={"default"="NULL"})
      */
-    private $cellPhone = 'NULL';
+    private $cellPhone = NULL;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="landline_phone", type="string", length=45, nullable=true, options={"default"="NULL"})
      */
-    private $landlinePhone = 'NULL';
+    private $landlinePhone = NULL;
 
     /**
      * @var bool|null
      *
      * @ORM\Column(name="family_situation", type="boolean", nullable=true, options={"default"="NULL"})
      */
-    private $familySituation = 'NULL';
+    private $familySituation = NULL;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="occupation", type="string", length=255, nullable=true, options={"default"="NULL"})
      */
-    private $occupation = 'NULL';
+    private $occupation = NULL;
 
     /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="banished", type="datetime", nullable=true, options={"default"="NULL"})
      */
-    private $banished = 'NULL';
+    private $banished = NULL;
 
     /**
      * @var \Adress
@@ -130,6 +133,11 @@ class Person
      * @ORM\ManyToMany(targetEntity="Property", mappedBy="idOwner")
      */
     private $idProperty;
+	
+	/**
+	 * @var string
+	 */
+    private $titleCivility;
 
     /**
      * Constructor
@@ -190,6 +198,8 @@ class Person
     public function setCivility(bool $civility): self
     {
         $this->civility = $civility;
+        
+        $this->setTitleCivility();
 
         return $this;
     }
@@ -373,5 +383,24 @@ class Person
 
         return $this;
     }
-
+	
+	public function getTitleCivility(): string
+	{
+		return $this->titleCivility;
+	}
+	
+	public function setTitleCivility(): self
+	{
+		switch ($this->civility) {
+			case 0:
+				$this->titleCivility = self::GENDER_FEMALE;
+				break;
+			case 1:
+				$this->titleCivility = self::GENDER_MALE;
+				break;
+		}
+		
+		return $this;
+	}
+	
 }

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Property
  *
  * @ORM\Table(name="property", indexes={@ORM\Index(name="property_adress_FK", columns={"id_adress"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
  */
 class Property
 {
@@ -35,56 +35,56 @@ class Property
      *
      * @ORM\Column(name="construction_date", type="datetime", nullable=true, options={"default"="NULL"})
      */
-    private $constructionDate = 'NULL';
+    private $constructionDate = NULL;
 
     /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="purchase_date", type="datetime", nullable=true, options={"default"="NULL"})
      */
-    private $purchaseDate = 'NULL';
+    private $purchaseDate = NULL;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="purchase_price", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
      */
-    private $purchasePrice = 'NULL';
+    private $purchasePrice = NULL;
 
     /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="sale_date", type="datetime", nullable=true, options={"default"="NULL"})
      */
-    private $saleDate = 'NULL';
+    private $saleDate = NULL;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="sale_price", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
      */
-    private $salePrice = 'NULL';
+    private $salePrice = NULL;
 
     /**
      * @var float|null
      *
      * @ORM\Column(name="surface_area", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
      */
-    private $surfaceArea = 'NULL';
+    private $surfaceArea = NULL;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="nb_rooms", type="integer", nullable=true, options={"default"="NULL"})
      */
-    private $nbRooms = 'NULL';
+    private $nbRooms = NULL;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="details", type="text", length=0, nullable=true, options={"default"="NULL"})
      */
-    private $details = 'NULL';
+    private $details = NULL;
 
     /**
      * @var \Adress

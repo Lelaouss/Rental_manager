@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Rent
  *
  * @ORM\Table(name="rent", indexes={@ORM\Index(name="rent_property_FK", columns={"id_property"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\RentRepository")
  */
 class Rent
 {
@@ -35,7 +35,7 @@ class Rent
      *
      * @ORM\Column(name="end_date", type="datetime", nullable=true, options={"default"="NULL"})
      */
-    private $endDate = 'NULL';
+    private $endDate = NULL;
 
     /**
      * @var float

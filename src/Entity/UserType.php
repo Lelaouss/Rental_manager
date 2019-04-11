@@ -8,10 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
  * UserType
  *
  * @ORM\Table(name="user_type")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UserTypeRepository")
  */
 class UserType
 {
+	const STATUS_DISABLED = 0;
+	const STATUS_ENABLED = 1;
+	
     /**
      * @var int
      *
@@ -31,11 +34,20 @@ class UserType
     /**
      * @var bool
      *
-     * @ORM\Column(name="active", type="boolean", nullable=false)
+     * @ORM\Column(name="active", type="boolean", nullable=false, options={"default" : 1})
      */
     private $active;
-
-    public function getIdUserType(): ?int
+	
+	
+	/**
+	 * UserType constructor.
+	 */
+	public function __construct()
+	{
+		$this->active = self::STATUS_ENABLED;
+	}
+	
+	public function getIdUserType(): ?int
     {
         return $this->idUserType;
     }

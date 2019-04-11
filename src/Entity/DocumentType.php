@@ -8,11 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
  * DocumentType
  *
  * @ORM\Table(name="document_type")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\DocumentTypeRepository")
  */
 class DocumentType
 {
-    /**
+	const STATUS_DISABLED = 0;
+	const STATUS_ENABLED = 1;
+	
+	
+	/**
      * @var int
      *
      * @ORM\Column(name="id_document_type", type="integer", nullable=false)
@@ -31,11 +35,20 @@ class DocumentType
     /**
      * @var bool
      *
-     * @ORM\Column(name="active", type="boolean", nullable=false)
+     * @ORM\Column(name="active", type="boolean", nullable=false, options={"default" : 1})
      */
     private $active;
-
-    public function getIdDocumentType(): ?int
+	
+	
+	/**
+	 * DocumentType constructor.
+	 */
+	public function __construct()
+	{
+		$this->active = self::STATUS_ENABLED;
+	}
+	
+	public function getIdDocumentType(): ?int
     {
         return $this->idDocumentType;
     }

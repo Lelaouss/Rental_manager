@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Adress
  *
  * @ORM\Table(name="adress", indexes={@ORM\Index(name="adress_city_FK", columns={"id_city"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AdressRepository")
  */
 class Adress
 {
@@ -33,7 +33,7 @@ class Adress
      *
      * @ORM\Column(name="additional_adress", type="string", length=255, nullable=true, options={"default"="NULL"})
      */
-    private $additionalAdress = 'NULL';
+    private $additionalAdress = NULL;
 
     /**
      * @var \City

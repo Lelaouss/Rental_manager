@@ -10,11 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
  * Document
  *
  * @ORM\Table(name="document", indexes={@ORM\Index(name="document_document_type_FK", columns={"id_document_type"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\DocumentRepository")
  */
 class Document
 {
-    /**
+	const STATUS_DISABLED = 0;
+	const STATUS_ENABLED = 1;
+	
+	
+	/**
      * @var int
      *
      * @ORM\Column(name="id_document", type="integer", nullable=false)
@@ -40,7 +44,7 @@ class Document
     /**
      * @var bool
      *
-     * @ORM\Column(name="active", type="boolean", nullable=false)
+     * @ORM\Column(name="active", type="boolean", nullable=false, options={"default" : 1})
      */
     private $active;
 
@@ -77,10 +81,11 @@ class Document
     private $idRent;
 
     /**
-     * Constructor
+     * Document constructor
      */
     public function __construct()
     {
+    	$this->active = self::STATUS_ENABLED;
         $this->idProperty = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idRent = new \Doctrine\Common\Collections\ArrayCollection();
     }

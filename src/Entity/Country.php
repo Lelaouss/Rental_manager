@@ -8,11 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
  * Country
  *
  * @ORM\Table(name="country")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CountryRepository")
  */
 class Country
 {
-    /**
+	const STATUS_DISABLED = 0;
+	const STATUS_ENABLED = 1;
+	
+	
+	/**
      * @var int
      *
      * @ORM\Column(name="id_country", type="integer", nullable=false)
@@ -31,11 +35,20 @@ class Country
     /**
      * @var bool
      *
-     * @ORM\Column(name="active", type="boolean", nullable=false)
+     * @ORM\Column(name="active", type="boolean", nullable=false, options={"default" : 0})
      */
     private $active;
-
-    public function getIdCountry(): ?int
+	
+	
+	/**
+	 * Country constructor.
+	 */
+	public function __construct()
+	{
+		$this->active = self::STATUS_DISABLED;
+	}
+	
+	public function getIdCountry(): ?int
     {
         return $this->idCountry;
     }

@@ -3,14 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
  *
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="user_person_AK", columns={"id_person"})}, indexes={@ORM\Index(name="user_user_type0_FK", columns={"id_user_type"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -24,7 +26,13 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="login", type="string", length=45, nullable=false)
+     * @ORM\Column(name="login", type="string", length=45, nullable=false, unique=true)
+	 * @Assert\Length(
+	 *     min=3,
+	 *     max=45,
+	 *     minMessage="L'identifiant renseigné est trop court (minimum 3 caractères).",
+	 *     maxMessage="L'identifiant renseigné est trop long (maximum 45 caractères)."
+	 * )
      */
     private $login;
 
@@ -40,14 +48,14 @@ class User
      *
      * @ORM\Column(name="banished", type="datetime", nullable=true, options={"default"="NULL"})
      */
-    private $banished = 'NULL';
+    private $banished = NULL;
 
     /**
      * @var \Person
      *
-     * @ORM\ManyToOne(targetEntity="Person")
+     * @ORM\OneToOne(targetEntity="Person")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_person", referencedColumnName="id_person")
+     *   @ORM\JoinColumn(name="id_person", referencedColumnName="id_person", nullable=false)
      * })
      */
     private $idPerson;
@@ -57,7 +65,7 @@ class User
      *
      * @ORM\ManyToOne(targetEntity="UserType")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_user_type", referencedColumnName="id_user_type")
+     *   @ORM\JoinColumn(name="id_user_type", referencedColumnName="id_user_type", nullable=false)
      * })
      */
     private $idUserType;
@@ -126,6 +134,52 @@ class User
 
         return $this;
     }
-
-
+	
+	
+	/**
+	 * Returns the roles granted to the user.
+	 *
+	 *     public function getRoles()
+	 *     {
+	 *         return ['ROLE_USER'];
+	 *     }
+	 *
+	 * Alternatively, the roles might be stored on a ``roles`` property,
+	 * and populated in any number of different ways when the user object
+	 * is created.
+	 *
+	 * @return array (Role|string)[] The user roles
+	 */
+	public function getRoles()
+	{
+		// TODO: Implement getRoles() method.
+		return ['ROLE_USER'];
+	}
+	
+	/**
+	 * Returns the salt that was originally used to encode the password.
+	 *
+	 * This can return null if the password was not encoded using a salt.
+	 *
+	 * @return string|null The salt
+	 */
+	public function getSalt() {}
+	
+	/**
+	 * Returns the username used to authenticate the user.
+	 *
+	 * @return string The username
+	 */
+	public function getUsername()
+	{
+		return $this->getLogin();
+	}
+	
+	/**
+	 * Removes sensitive data from the user.
+	 *
+	 * This is important if, at any given point, sensitive information like
+	 * the plain-text password is stored on this object.
+	 */
+	public function eraseCredentials() {}
 }
