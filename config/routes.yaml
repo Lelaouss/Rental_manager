@@ -1,7 +1,15 @@
 index:
     path: /
-    controller: App\Controller\LoginController::index
+    controller: App\Controller\AccountController::login
 
 login:
     path: /login
-    controller: App\Controller\LoginController::index
+    controller: App\Controller\AccountController::login
+
+logout:
+    path: /logout
+    controller: App\Controller\AccountController::logout
+
+register:
+    path: /register
+    controller: App\Controller\AccountController::register

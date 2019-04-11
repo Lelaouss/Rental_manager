@@ -1,0 +1,31 @@
+/* VARIABLES */
+:root {
+    --main-bg-color: #B2B2B2;
+    --main-second-color: #878F99;
+    --main-third-color: #FF7B25;
+    --main-btn-primary-color: #FF7B25;
+    --main-title-first-font: "BEYNO";
+    --main-title-second-font: "Monsieur Pomme";
+    --main-text-font: "Modern Sans";
+    --main-text-second-font: "Caviar Dreams";
+}
+
+/* GLOBALS */
+body {
+    background-color: var(--main-bg-color);
+    font-family: var(--main-text-font);
+}
+
+h1 {
+    font-family: var(--main-title-first-font);
+}
+
+/* BUTTONS */
+.btn {
+    font-family: var(--main-text-second-font);
+}
+
+.btn-primary {
+    background-color: var(--main-btn-primary-color);
+    border-color: var(--main-btn-primary-color);
+}
