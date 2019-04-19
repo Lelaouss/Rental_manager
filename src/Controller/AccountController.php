@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Person;
 use App\Entity\User;
-use App\Repository\CountryRepository;
+use App\Form\PersonRegistrationType;
+use App\Form\RegistrationType;
+use App\Service\UserService;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * Class AccountController
@@ -15,26 +19,67 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class AccountController extends AbstractController
 {
 	/**
-	 * Fonction login qui permet l'accès à la page de connexion ainsi que la connexion
-	 * Affiche et gère le formulaire de connexion
+	 * Fonction index
+	 * Affiche et gère les formulaires de connexion et inscription
 	 *
-	 * @param AuthenticationUtils $utils
+	 * @param Request       $request
+	 * @param ObjectManager $manager
+	 * @param UserService   $userService
 	 * @return Response
 	 */
-	public function login(AuthenticationUtils $utils): Response
+	public function index(Request $request, ObjectManager $manager, UserService $userService): Response
 	{
-		// Gestion des erreurs d'authenfication (si pas d'erreur === null)
-		$error = $utils->getLastAuthenticationError();
-		$username = $utils->getLastUsername();
+		// Personne
+		$person = new Person();
+		// Utilisateur
+		$user = new User();
+		
+		// Création des formulaires
+		$formPerson = $this->createForm(PersonRegistrationType::class, $person);
+		$formUser = $this->createForm(RegistrationType::class, $user);
+		
+		// Gestion de la requête (formulaire)
+		$formPerson->handleRequest($request);
+		$formUser->handleRequest($request);
+		
+		// Si le formulaire personne a été envoyé et validé
+		// Si le formulaire utilisateur a été envoyé et validé
+		if (($formPerson->isSubmitted() && $formPerson->isValid()) && ($formUser->isSubmitted() && $formUser->isValid())) {
+			
+			// Enregistrement de la nouvelle personne en BDD
+			$manager->persist($person);
+			$manager->flush();
+			
+			// Préparation du nouvel utilisateur
+			$userService->setNewUserConstraints($user, $person);
+			
+			// Enregistrement du nouvel utilisateur en BDD
+			$manager->persist($user);
+			$manager->flush();
+			
+			dump($user, $person);
+		}
 		
 		return $this->render('account/login.html.twig', [
-			'hasError' => $error !== null,
-			'username' => $username
+			'form_person' => $formPerson->createView(),
+			'form_user' => $formUser->createView()
 		]);
 	}
 	
 	/**
-	 * Fonction logout de déconnexion
+	 * Fonction login
+	 * Permet la connexion
+	 *
+	 * @return void
+	 */
+	public function login(): void
+	{
+		// géré par symfony
+	}
+	
+	/**
+	 * Fonction logout
+	 * Permet la déconnexion
 	 *
 	 * @return void
 	 */
@@ -42,15 +87,5 @@ class AccountController extends AbstractController
 	{
 		// géré par symfony
 	}
-	
-	/**
-	 * Fonction register d'inscription au site
-	 * Affiche le formulaire d'inscription
-	 *
-	 * @return Response
-	 */
-	public function register(): Response
-	{
-	
-	}
+
 }

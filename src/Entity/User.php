@@ -42,6 +42,13 @@ class User implements UserInterface
      * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private $password;
+	
+	/**
+	 * @var string
+	 *
+	 * @Assert\EqualTo(propertyPath="password", message="Doit être identique au mot de passe.")
+	 */
+    private $passwordConfirm;
 
     /**
      * @var \DateTime|null
@@ -95,6 +102,18 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+    
+    public function getPasswordConfirm(): ?string
+    {
+        return $this->passwordConfirm;
+    }
+
+    public function setPasswordConfirm(string $password): self
+    {
+        $this->passwordConfirm = $password;
 
         return $this;
     }
