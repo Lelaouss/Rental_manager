@@ -1,3 +1,46 @@
+/* FONTS */
+@font-face {
+    font-family: "BEYNO";
+    src: url("../fonts/BEYNO.otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Monsieur Pomme";
+    src: url("../fonts/Monsieur-Pomme.otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Caviar Dreams";
+    src: url("../fonts/CaviarDreams.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Caviar Dreams";
+    src: url("../fonts/CaviarDreams_Bold.ttf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Caviar Dreams";
+    src: url("../fonts/CaviarDreams_Italic.ttf");
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Caviar Dreams";
+    src: url("../fonts/CaviarDreams_BoldItalic.ttf");
+    font-weight: bold;
+    font-style: italic;
+}
+
 /* VARIABLES */
 :root {
     --main-bg-color: #B2B2B2;
