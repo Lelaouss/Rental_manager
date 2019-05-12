@@ -171,8 +171,10 @@ class User implements UserInterface
 	 */
 	public function getRoles()
 	{
-		// TODO: Implement getRoles() method.
-		return ['ROLE_USER'];
+		$idRoleUser = $this->getIdUserType();
+		$labelRoleUser = $idRoleUser->getLabel();
+		
+		return [$labelRoleUser];
 	}
 	
 	/**
