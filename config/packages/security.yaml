@@ -24,13 +24,13 @@ security:
 
             # Route pour l'authentification et chemin de validation des données
             form_login:
-                login_path: login
+                login_path: index
                 check_path: login
 
             # Route pour la déconnexion et page de redirection une fois déconnecté
             logout:
                 path: logout
-                target: login
+                target: index
 
             # activate different ways to authenticate
 

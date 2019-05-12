@@ -18,6 +18,16 @@ class UserTypeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, UserType::class);
     }
+    
+    public function findOneActiveByName(string $value)
+	{
+		return $this->createQueryBuilder('userType')
+			->andWhere('userType.label = :label')
+			->andWhere('userType.active = 1')
+			->setParameter('label', $value)
+			->getQuery()
+			->getOneOrNullResult();
+	}
 
     // /**
     //  * @return UserType[] Returns an array of UserType objects

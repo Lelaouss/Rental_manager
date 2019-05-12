@@ -2,15 +2,20 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Person
  *
  * @ORM\Table(name="person", indexes={@ORM\Index(name="person_adress_FK", columns={"id_adress"})})
  * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
+ * @UniqueEntity(
+ *     fields={"mail"},
+ *     message="Cet adresse email est déjà utilisé par un autre utilisateur."
+ * )
  */
 class Person
 {
@@ -30,6 +35,7 @@ class Person
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=255, nullable=false)
+	 * @Assert\NotBlank()
      */
     private $firstName;
 
@@ -37,7 +43,8 @@ class Person
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=255, nullable=false)
-     */
+	 * @Assert\NotBlank()
+	 */
     private $lastName;
 
     /**
@@ -65,6 +72,7 @@ class Person
      * @var string|null
      *
      * @ORM\Column(name="mail", type="string", length=255, nullable=true, options={"default"="NULL"})
+	 * @Assert\Email(message="Veuillez renseigner une adresse mail valide.")
      */
     private $mail = NULL;
 
@@ -392,10 +400,10 @@ class Person
 	public function setTitleCivility(): self
 	{
 		switch ($this->civility) {
-			case 0:
+			case "0":
 				$this->titleCivility = self::GENDER_FEMALE;
 				break;
-			case 1:
+			case "1":
 				$this->titleCivility = self::GENDER_MALE;
 				break;
 		}

@@ -47,6 +47,12 @@
     --main-second-color: #878F99;
     --main-third-color: #FF7B25;
     --main-btn-primary-color: #FF7B25;
+    --main-btn-primary-color-hover: #5f2c26;
+    --main-btn-secondary-color: #878F99;
+    --main-btn-secondary-color-hover: #F8F8FF;
+    --main-text-color: #F8F8FF;
+    --main-text-second-color: #878F99;
+    --input-placeholder-color: rgba(248,248,255,0.6);
     --main-title-first-font: "BEYNO";
     --main-title-second-font: "Monsieur Pomme";
     --main-text-font: "Modern Sans";
@@ -57,10 +63,19 @@
 body {
     background-color: var(--main-bg-color);
     font-family: var(--main-text-font);
+    color: var(--main-text-color);
 }
 
 h1 {
     font-family: var(--main-title-first-font);
+}
+
+h2 {
+    font-family: var(--main-title-second-font);
+}
+
+h3 {
+    font-family: var(--main-title-second-font);
 }
 
 /* BUTTONS */
@@ -68,7 +83,26 @@ h1 {
     font-family: var(--main-text-second-font);
 }
 
-.btn-primary {
+button.btn-primary {
+    color: var(--main-text-color);
     background-color: var(--main-btn-primary-color);
     border-color: var(--main-btn-primary-color);
+}
+button.btn-primary:hover {
+    color: var(--main-text-color);
+    background-color: var(--main-btn-primary-color-hover);
+    border-color: var(--main-btn-primary-color-hover);
+}
+
+button.btn-secondary {
+    color: var(--main-text-color);
+    background-color: var(--main-second-color);
+    border-color: var(--main-second-color);
+}
+button.btn-secondary:hover {
+    color: var(--main-text-color);
+    background-color: var(--main-btn-secondary-color-hover);
+    border-color: var(--main-btn-secondary-color-hover);
+
+
 }
