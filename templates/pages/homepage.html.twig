@@ -1,0 +1,35 @@
+{% extends 'skeleton.html.twig' %}
+
+{% block title %}Rental Manager - Accueil{% endblock %}
+
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('/css/homepage.css') }}">{% endblock %}
+
+{% block content %}
+    {% set homeItem = [
+        [
+            {'title': 'LOCAUX', 'img': 'building.svg', 'description': 'Administrez vos biens immobiliers', 'path': 'home'},
+            {'title': 'CONTRATS', 'img': 'rents.svg', 'description': 'Gérez vos baux locatifs', 'path': 'home'},
+            {'title': 'LOYERS', 'img': 'payments.svg', 'description': 'Perceptions de vos loyers et appels de fonds', 'path': 'home'}
+        ],
+        [
+            {'title': 'CHARGES', 'img': 'expenses.svg', 'description': 'Suivez le règlement de vos charges', 'path': 'index'},
+            {'title': 'RAPPORTS', 'img': 'reports.svg', 'description': 'Consultez vos bilans', 'path': 'home'}
+        ]
+    ] %}
+
+    <div class="home-content d-flex flex-column p-5">
+        {% for row in homeItem %}
+            <div class="home-row-item d-flex justify-content-around {{ loop.first ? 'mb-5'}}{{ loop.last ? 'mt-5'}}">
+                {% for item in row %}
+                    <div class="home-item" data-home-item-path="{{ path(item.path) }}">
+                        <div class="d-flex justify-content-center"><h3 class="home-item-title">{{ item.title }}</h3></div>
+                        <div class="d-flex justify-content-center"><span class="home-item-img">{{ source('@img_path/'~item.img) }}</span></div>
+                        <div class="d-flex justify-content-center"><span class="home-item-description">{{ item.description }}</span></div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}<script src="{{ asset('/js/homepage.js') }}"></script>{% endblock %}

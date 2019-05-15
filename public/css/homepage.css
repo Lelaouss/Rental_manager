@@ -1,0 +1,40 @@
+.home-content {
+    background-color: var(--main-bg-color);
+    height: 800px;
+}
+
+.home-item {
+    background-color: var(--main-third-color);
+    width: 220px;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+}
+
+.home-item-title {
+    font-family: var(--main-text-second-font);
+    font-weight: bold;
+    font-style: italic;
+}
+
+.home-item-img {
+    width: 100px;
+    height: auto;
+}
+
+.home-item-description {
+    font-family: var(--main-text-second-font);
+    text-align: center;
+}
+
+.home-item:hover {
+    background-color: var(--main-bg-color);
+    border: 4px solid var(--main-third-color);
+}
+
+.home-item:hover svg path {
+    fill: var(--main-third-color);
+}

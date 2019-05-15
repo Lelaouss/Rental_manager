@@ -103,6 +103,8 @@ button.btn-secondary:hover {
     color: var(--main-text-color);
     background-color: var(--main-btn-secondary-color-hover);
     border-color: var(--main-btn-secondary-color-hover);
+}
 
-
+.c-pointer {
+    cursor: pointer;
 }

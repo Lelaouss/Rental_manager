@@ -26,6 +26,7 @@ security:
             form_login:
                 login_path: index
                 check_path: login
+                default_target_path: /home
 
             # Route pour la déconnexion et page de redirection une fois déconnecté
             logout:

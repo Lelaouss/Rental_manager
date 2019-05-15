@@ -70,9 +70,9 @@ class AccountController extends AbstractController
 	 * Fonction login
 	 * Permet la connexion
 	 *
-	 * @return void
+	 * @return Response
 	 */
-	public function login(): void
+	public function login(): Response
 	{
 		// géré par symfony
 	}

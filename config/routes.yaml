@@ -9,3 +9,7 @@ login:
 logout:
     path: /logout
     controller: App\Controller\AccountController::logout
+
+home:
+    path: /home
+    controller: App\Controller\PageController::home

@@ -1,0 +1,43 @@
+<div id="menu">
+    <ul class="d-flex flex-column align-items-center" id="content-menu">
+        <li class="menu-item"><a href="{{ path('home') }}">LOCAUX</a></li>
+        <li class="menu-item"><a href="{{ path('home') }}">CONTRATS</a></li>
+        <li class="menu-item"><a href="{{ path('home') }}">LOYERS</a></li>
+        <li class="menu-item"><a href="{{ path('home') }}">CHARGES</a></li>
+        <li class="menu-item"><a href="{{ path('home') }}">RAPPORTS</a></li>
+    </ul>
+</div>
+
+<style>
+    #menu {
+        padding-top: 60px;
+    }
+
+    #content-menu {
+        margin: 10px;
+        padding: 40px;
+        border: 2px solid #707070;
+        background-color: var(--main-bg-color);
+        border-radius: 10px;
+    }
+
+    #menu .menu-item:not(:last-child) {
+        margin-bottom: 40px;
+    }
+
+    .menu-item {
+        font-family: var(--main-text-second-font);
+        font-weight: bold;
+        font-size: 1.2rem;
+        list-style: none;
+    }
+
+    .menu-item a {
+        color: var(--main-text-color);
+    }
+
+    .menu-item a:hover {
+        color: var(--main-btn-primary-color);
+        text-decoration: none;
+    }
+</style>
