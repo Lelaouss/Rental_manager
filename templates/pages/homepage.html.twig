@@ -2,12 +2,12 @@
 
 {% block title %}Rental Manager - Accueil{% endblock %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('/css/homepage.css') }}">{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('/css/pages/homepage.css') }}">{% endblock %}
 
 {% block content %}
     {% set homeItem = [
         [
-            {'title': 'LOCAUX', 'img': 'building.svg', 'description': 'Administrez vos biens immobiliers', 'path': 'home'},
+            {'title': 'LOCAUX', 'img': 'building.svg', 'description': 'Administrez vos biens immobiliers', 'path': 'properties'},
             {'title': 'CONTRATS', 'img': 'rents.svg', 'description': 'Gérez vos baux locatifs', 'path': 'home'},
             {'title': 'LOYERS', 'img': 'payments.svg', 'description': 'Perceptions de vos loyers et appels de fonds', 'path': 'home'}
         ],
@@ -32,4 +32,4 @@
     </div>
 {% endblock %}
 
-{% block javascripts %}<script src="{{ asset('/js/homepage.js') }}"></script>{% endblock %}
+{% block javascripts %}<script src="{{ asset('/js/pages/homepage.js') }}"></script>{% endblock %}
