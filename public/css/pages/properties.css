@@ -1,4 +1,4 @@
-.properties-content {
+#properties-content {
     background-color: var(--main-bg-color);
     height: 800px;
 }
@@ -25,6 +25,55 @@
 
 #properties-header button:hover {
     background-color: var(--main-text-color);
-    /*color: var(--main-bg-color);*/
     color: var(--main-third-color);
+}
+
+table.table-bordered > thead > tr > th {
+    border-color: var(--main-text-color);
+}
+
+table.table-bordered > tbody > tr > td {
+    border-color: var(--main-text-color);
+}
+
+#properties-table thead tr {
+    background-color: var(--main-second-color);
+}
+
+#properties-table thead tr th {
+    font-family: var(--main-text-second-font);
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+}
+
+#properties-table tbody tr:nth-child(even) {
+    background-color: var(--main-third-color);
+}
+
+#properties-table tbody tr:nth-child(odd) {
+    background-color: var(--main-bg-color);
+}
+
+.properties-action {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.properties-action {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.properties-action:hover {
+    opacity: 1;
+}
+
+span.properties-action svg {
+    width: 30px;
+    height: auto;
+}
+
+span.properties-action svg path {
+    fill: var(--main-second-color);
 }

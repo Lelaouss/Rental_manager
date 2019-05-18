@@ -5,12 +5,65 @@
 {% block stylesheets %}<link rel="stylesheet" href="{{ asset('/css/pages/properties.css') }}">{% endblock %}
 
 {% block content %}
-    <div class="properties-content d-flex flex-column p-5">
-        <div id="properties-header" class="d-flex justify-content-between align-items-center">
+    <div id="properties-content" class="d-flex flex-column p-5">
+        <div id="properties-header" class="d-flex justify-content-between align-items-center mb-3">
             <button>AJOUTER UN BIEN</button>
             <h3>LOCAUX</h3>
         </div>
+        <div id="properties-body" class="table-responsive-md">
+            <table id="properties-table" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Identification du local</th>
+                    <th>Adresse</th>
+                    <th>Occupation</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>CENTRAL FAC</td>
+                    <td>
+                        <div class="d-flex flex-column">
+                            <span>Résidence Central Fac</span>
+                            <span>7 rue des Amaryllis</span>
+                            <span>34070 Montpellier</span>
+                        </div>
+                    </td>
+                    <td>Loué depuis 8 mois</td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <span class="properties-action">{{ source('@img_path/edit.svg') }}</span>
+                            <span class="properties-action">{{ source('@img_path/garbage.svg') }}</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>LA RADIEUSE</td>
+                    <td>
+                        <div class="d-flex flex-column">
+                            <span>Résidence Central Fac</span>
+                            <span>7 rue des Amaryllis</span>
+                            <span>34090 Montpellier</span>
+                        </div>
+                    </td>
+                    <td>Loué depuis 10 mois</td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <span class="properties-action">{{ source('@img_path/edit.svg') }}</span>
+                            <span class="properties-action">{{ source('@img_path/garbage.svg') }}</span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <script type="text/javascript">
+        let toto = "edit";
+        {#var imgEdit = '{{ source('@img_path/edit.svg') }}';#}
+    </script>
 {% endblock %}
 
 {% block javascripts %}<script src="{{ asset('/js/pages/properties.js') }}"></script>{% endblock %}
