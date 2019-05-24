@@ -58,89 +58,59 @@ class PageController extends AbstractController
 		$formAdress->handleRequest($request);
 		$formCity->handleRequest($request);
 		
+		// Retour des formulaires
 		if ($request->isXmlHttpRequest()) {
 			if ($formProperty->isSubmitted() && $formAdress->isSubmitted() && $formCity->isSubmitted()) {
 				
+				// Formulaires valides
 				if ($formProperty->isValid() && $formAdress->isValid() && $formCity->isValid()) {
+					
+					// Status pour le JSON
 					$result = 1;
 					$message = "Tout s'est passé correctement.";
 					$code = 200;
+					
+					// Récupération des propriétés
 					$propertyRepository = $manager->getRepository(Property::class);
 					$properties = $propertyRepository->findAll();
 					$errors = [];
 					
+					// Reset forms
+					$property = new Property();
+					$adress = new Adress();
+					$city = new City();
+					$formProperty = $this->createForm(PropertyType::class, $property);
+					$formAdress = $this->createForm(AdressType::class, $adress);
+					$formCity = $this->createForm(CityType::class, $city);
 					
+					// Renvoi
 					return $this->json([
 						'result' => $result,
 						'message' => $message,
 						'data' => [
 							'properties' => $properties,
-							'errors' => $errors
+							'errors' => $errors,
+							'html' => $this->render('pages/modal.html.twig', [
+								'form_property' => $formProperty->createView(),
+								'form_adress' => $formAdress->createView(),
+								'form_city' => $formCity->createView()
+							])
 						]
 					], $code);
 				}
 				
+				// Un des formulaires n'est pas valide
 				if (!$formProperty->isValid() || !$formAdress->isValid() || !$formCity->isValid()) {
-					$result = 0;
-					$message = "Un des formulaires n'est pas valide !";
-					$code = 200;
-					$properties = [];
-					$errors = [];
-					
-					foreach ($formProperty->getErrors() as $error) {
-						$errors[$formProperty->getName()][] = $error->getMessage();
-					}
-					foreach ($formProperty as $child) {
-						if (!$child->isValid()) {
-							foreach ($child->getErrors() as $error) {
-								$errors[$formProperty->getName()][$child->getName()][] = $error->getMessage();
-							}
-						}
-					}
-					
-					foreach ($formAdress->getErrors() as $error) {
-						$errors[$formAdress->getName()][] = $error->getMessage();
-					}
-					foreach ($formAdress as $child) {
-						if (!$child->isValid()) {
-							foreach ($child->getErrors() as $error) {
-								$errors[$formAdress->getName()][$child->getName()][] = $error->getMessage();
-							}
-						}
-					}
-					
-					foreach ($formCity->getErrors() as $error) {
-						$errors[$formCity->getName()][] = $error->getMessage();
-					}
-					foreach ($formCity as $child) {
-						if (!$child->isValid()) {
-							foreach ($child->getErrors() as $error) {
-								$errors[$formCity->getName()][$child->getName()][] = $error->getMessage();
-							}
-						}
-					}
-					
 					return $this->render('pages/modal.html.twig', [
 						'form_property' => $formProperty->createView(),
 						'form_adress' => $formAdress->createView(),
 						'form_city' => $formCity->createView()
 					]);
 				}
-				
-				
-//				return $this->json([
-//					'result' => $result,
-//					'message' => $message,
-//					'data' => [
-//						'properties' => $properties,
-//						'errors' => $errors
-//					]
-//				], $code);
 			}
-			
 		}
 		
-		
+		// Si pas d'envoi de formulaire
 		return $this->render('pages/properties.html.twig', [
 			'form_property' => $formProperty->createView(),
 			'form_adress' => $formAdress->createView(),

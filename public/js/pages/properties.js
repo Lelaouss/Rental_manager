@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    $('#btn-properties-add-modal').on('click', function () {
+        $('#properties-add-form').trigger('reset');
+    });
+
     $('body').on('submit','#properties-add-form',function (event) {
         event.preventDefault();
 
@@ -12,26 +16,21 @@ $(document).ready(function () {
             data: form.serializeArray()
         })
             .done(function (data, status, xhr) {
-
-                console.log(data);
-                console.log(status);
-                console.log(xhr);
-
-
                 if (status == "success") {
-                        let ct = xhr.getResponseHeader("content-type") || "";
+                    let ct = xhr.getResponseHeader("content-type") || "";
 
-                        if (ct.indexOf('html') > -1) {
+                    if (ct.indexOf('html') > -1) {
+                        $('#properties-add-modal-content').empty();
+                        $('#properties-add-modal-content').append(data);
+                    }
+
+                    if (ct.indexOf('json') > -1) {
+                        if (data.result === 1) {
+                            $('#properties-add-modal').modal('hide');
                             $('#properties-add-modal-content').empty();
-                            $('#properties-add-modal-content').append(data);
+                            $('#properties-add-modal-content').append(data.data.template.content);
                         }
-
-                        if (ct.indexOf('json') > -1) {
-                            if (data.result === 1) {
-                                $('#properties-add-modal').modal('hide');
-                                $('#properties-add-form').trigger('reset');
-                            }
-                        }
+                    }
                 }
             })
             .fail(function (error) {
