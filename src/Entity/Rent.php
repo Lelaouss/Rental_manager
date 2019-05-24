@@ -33,7 +33,7 @@ class Rent
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="end_date", type="datetime", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="end_date", type="datetime", nullable=true, options={"default"=NULL})
      */
     private $endDate = NULL;
 

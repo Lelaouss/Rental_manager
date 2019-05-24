@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,62 +27,68 @@ class Property
      * @var string
      *
      * @ORM\Column(name="label", type="string", length=45, nullable=false)
+	 * @Assert\Length(
+	 * 		min = 3,
+	 *    	max = 45,
+	 *    	minMessage = "L'identifiant du local doit faire au minimum 3 caractères.",
+	 *   	maxMessage = "L'identifiant du local doit faire au maximum 45 caractères."
+	 * )
      */
     private $label;
 
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="construction_date", type="datetime", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="construction_date", type="datetime", nullable=true, options={"default"=NULL})
      */
     private $constructionDate = NULL;
 
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="purchase_date", type="datetime", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="purchase_date", type="datetime", nullable=true, options={"default"=NULL})
      */
     private $purchaseDate = NULL;
 
     /**
      * @var float|null
      *
-     * @ORM\Column(name="purchase_price", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="purchase_price", type="float", precision=10, scale=0, nullable=true, options={"default"=NULL})
      */
     private $purchasePrice = NULL;
 
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="sale_date", type="datetime", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="sale_date", type="datetime", nullable=true, options={"default"=NULL})
      */
     private $saleDate = NULL;
 
     /**
      * @var float|null
      *
-     * @ORM\Column(name="sale_price", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="sale_price", type="float", precision=10, scale=0, nullable=true, options={"default"=NULL})
      */
     private $salePrice = NULL;
 
     /**
      * @var float|null
      *
-     * @ORM\Column(name="surface_area", type="float", precision=10, scale=0, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="surface_area", type="float", precision=10, scale=0, nullable=true, options={"default"=NULL})
      */
     private $surfaceArea = NULL;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="nb_rooms", type="integer", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="nb_rooms", type="integer", nullable=true, options={"default"=NULL})
      */
     private $nbRooms = NULL;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="details", type="text", length=0, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="details", type="text", length=0, nullable=true, options={"default"=NULL})
      */
     private $details = NULL;
 

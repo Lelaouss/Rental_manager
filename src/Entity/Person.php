@@ -22,6 +22,14 @@ class Person
 	const GENDER_FEMALE = "Mme";
 	const GENDER_MALE = "M.";
 	
+	const SITUATION_SINGLE = "Célibataire";
+	const SITUATION_MARRIED_FEMALE = "Mariée";
+	const SITUATION_MARRIED_MALE = "Marié";
+	const SITUATION_DIVORCED_FEMALE = "Divorcée";
+	const SITUATION_DIVORCED_MALE = "Divorcé";
+	const SITUATION_WIDOWED_FEMALE = "Veuve";
+	const SITUATION_WIDOWED_MALE = "Veuf";
+	
     /**
      * @var int
      *
@@ -50,28 +58,28 @@ class Person
     /**
      * @var string|null
      *
-     * @ORM\Column(name="middle_name", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="middle_name", type="string", length=255, nullable=true, options={"default"=NULL})
      */
     private $middleName = NULL;
 
     /**
-     * @var bool
+     * @var integer
      *
-     * @ORM\Column(name="civility", type="boolean", nullable=false)
+     * @ORM\Column(name="civility", type="integer", nullable=false)
      */
     private $civility;
 
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="birthday", type="datetime", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="birthday", type="datetime", nullable=true, options={"default"=NULL})
      */
     private $birthday = NULL;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="mail", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="mail", type="string", length=255, nullable=true, options={"default"=NULL})
 	 * @Assert\Email(message="Veuillez renseigner une adresse mail valide.")
      */
     private $mail = NULL;
@@ -79,35 +87,35 @@ class Person
     /**
      * @var string|null
      *
-     * @ORM\Column(name="cell_phone", type="string", length=45, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="cell_phone", type="string", length=45, nullable=true, options={"default"=NULL})
      */
     private $cellPhone = NULL;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="landline_phone", type="string", length=45, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="landline_phone", type="string", length=45, nullable=true, options={"default"=NULL})
      */
     private $landlinePhone = NULL;
 
     /**
-     * @var bool|null
+     * @var integer|null
      *
-     * @ORM\Column(name="family_situation", type="boolean", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="family_situation", type="integer", nullable=true, options={"default"=NULL})
      */
     private $familySituation = NULL;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="occupation", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="occupation", type="string", length=255, nullable=true, options={"default"=NULL})
      */
     private $occupation = NULL;
 
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="banished", type="datetime", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="banished", type="datetime", nullable=true, options={"default"=NULL})
      */
     private $banished = NULL;
 
@@ -146,6 +154,11 @@ class Person
 	 * @var string
 	 */
     private $titleCivility;
+    
+	/**
+	 * @var string
+	 */
+    private $titleFamilySituation;
 
     /**
      * Constructor
@@ -198,12 +211,14 @@ class Person
         return $this;
     }
 
-    public function getCivility(): ?bool
+    public function getCivility(): ?int
     {
+		$this->setTitleCivility();
+    	
         return $this->civility;
     }
 
-    public function setCivility(bool $civility): self
+    public function setCivility(int $civility): self
     {
         $this->civility = $civility;
         
@@ -260,14 +275,18 @@ class Person
         return $this;
     }
 
-    public function getFamilySituation(): ?bool
+    public function getFamilySituation(): ?int
     {
+		$this->setTitleFamilySituation();
+    	
         return $this->familySituation;
     }
 
-    public function setFamilySituation(?bool $familySituation): self
+    public function setFamilySituation(?int $familySituation): self
     {
         $this->familySituation = $familySituation;
+        
+        $this->setTitleFamilySituation();
 
         return $this;
     }
@@ -400,11 +419,48 @@ class Person
 	public function setTitleCivility(): self
 	{
 		switch ($this->civility) {
-			case "0":
+			case 0:
 				$this->titleCivility = self::GENDER_FEMALE;
 				break;
-			case "1":
+			case 1:
 				$this->titleCivility = self::GENDER_MALE;
+				break;
+		}
+		
+		return $this;
+	}
+	
+	public function getTitleFamilySituation(): string
+	{
+		return $this->titleFamilySituation;
+	}
+	
+	public function setTitleFamilySituation(): self
+	{
+		switch ($this->familySituation) {
+			case 0:
+				$this->titleFamilySituation = self::SITUATION_SINGLE;
+				break;
+			case 1:
+				$this->titleFamilySituation = self::SITUATION_MARRIED_MALE;
+				if ($this->civility == "0") {
+					$this->titleFamilySituation = self::SITUATION_MARRIED_FEMALE;
+				}
+				break;
+			case 2:
+				$this->titleFamilySituation = self::SITUATION_DIVORCED_MALE;
+				if ($this->civility == "0") {
+					$this->titleFamilySituation = self::SITUATION_DIVORCED_FEMALE;
+				}
+				break;
+			case 3:
+				$this->titleFamilySituation = self::SITUATION_WIDOWED_MALE;
+				if ($this->civility == "0") {
+					$this->titleFamilySituation = self::SITUATION_WIDOWED_FEMALE;
+				}
+				break;
+			default:
+				$this->titleFamilySituation = self::SITUATION_SINGLE;
 				break;
 		}
 		

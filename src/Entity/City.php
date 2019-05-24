@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * City
  *
- * @ORM\Table(name="city", indexes={@ORM\Index(name="city_country_FK", columns={"id_country"})})
- * @ORM\Entity(repositoryClass="App\Repository\CityRepository")
+ * @ORM\Table(name="city", indexes={@ORM\Index(name="IDX_2D5B02345D28362", columns={"id_county"})})
+ * @ORM\Entity
  */
 class City
 {
@@ -31,26 +31,26 @@ class City
     /**
      * @var string
      *
-     * @ORM\Column(name="county_name", type="string", length=255, nullable=false)
-     */
-    private $countyName;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="zip_code", type="string", length=255, nullable=false)
      */
     private $zipCode;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="county_code", type="string", length=3, nullable=false)
+     */
+    private $countyCode;
 
     /**
-     * @var \Country
+     * @var \County
      *
-     * @ORM\ManyToOne(targetEntity="Country")
+     * @ORM\ManyToOne(targetEntity="County")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_country", referencedColumnName="id_country")
+     *   @ORM\JoinColumn(name="id_county", referencedColumnName="id_county")
      * })
      */
-    private $idCountry;
+    private $idCounty;
 
     public function getIdCity(): ?int
     {
@@ -69,18 +69,6 @@ class City
         return $this;
     }
 
-    public function getCountyName(): ?string
-    {
-        return $this->countyName;
-    }
-
-    public function setCountyName(string $countyName): self
-    {
-        $this->countyName = $countyName;
-
-        return $this;
-    }
-
     public function getZipCode(): ?string
     {
         return $this->zipCode;
@@ -93,17 +81,28 @@ class City
         return $this;
     }
 
-    public function getIdCountry(): ?Country
+    public function getIdCounty(): ?County
     {
-        return $this->idCountry;
+        return $this->idCounty;
     }
 
-    public function setIdCountry(?Country $idCountry): self
+    public function setIdCounty(?County $idCounty): self
     {
-        $this->idCountry = $idCountry;
+        $this->idCounty = $idCounty;
 
         return $this;
     }
-
+	
+	public function getCountyCode()
+	{
+		return $this->countyCode;
+    }
+	
+	public function setCountyCode(string $countyCode)
+	{
+		$this->countyCode = $countyCode;
+		
+		return $this;
+    }
 
 }

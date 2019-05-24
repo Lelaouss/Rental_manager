@@ -21,6 +21,7 @@ class AccountController extends AbstractController
 	/**
 	 * Fonction index
 	 * Affiche et gère les formulaires de connexion et inscription
+	 * Permet la création d'un nouvel utilisateur et de la personne qui lui est rattachée
 	 *
 	 * @param Request       $request
 	 * @param ObjectManager $manager

@@ -7,7 +7,7 @@
 {% block content %}
     <div id="properties-content" class="d-flex flex-column p-5">
         <div id="properties-header" class="d-flex justify-content-between align-items-center mb-3">
-            <button>AJOUTER UN BIEN</button>
+            <button class="btn" type="button" data-toggle="modal" data-target="#properties-add-modal">AJOUTER UN BIEN</button>
             <h3>LOCAUX</h3>
         </div>
         <div id="properties-body" class="table-responsive-md">
@@ -21,7 +21,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr data-id-property="">
                     <td>CENTRAL FAC</td>
                     <td>
                         <div class="d-flex flex-column">
@@ -32,13 +32,13 @@
                     </td>
                     <td>Loué depuis 8 mois</td>
                     <td>
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-center properties-actions">
                             <span class="properties-action">{{ source('@img_path/edit.svg') }}</span>
                             <span class="properties-action">{{ source('@img_path/garbage.svg') }}</span>
                         </div>
                     </td>
                 </tr>
-                <tr>
+                <tr data-id-property="">
                     <td>LA RADIEUSE</td>
                     <td>
                         <div class="d-flex flex-column">
@@ -49,7 +49,7 @@
                     </td>
                     <td>Loué depuis 10 mois</td>
                     <td>
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-center properties-actions">
                             <span class="properties-action">{{ source('@img_path/edit.svg') }}</span>
                             <span class="properties-action">{{ source('@img_path/garbage.svg') }}</span>
                         </div>
@@ -60,10 +60,15 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-        let toto = "edit";
-        {#var imgEdit = '{{ source('@img_path/edit.svg') }}';#}
-    </script>
+    {# MODALES #}
+    <div class="modal fade" id="properties-add-modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="properties-add-modal-content">
+                {% include 'pages/modal.html.twig' %}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}<script src="{{ asset('/js/pages/properties.js') }}"></script>{% endblock %}

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Adress
@@ -25,14 +27,25 @@ class Adress
      * @var string
      *
      * @ORM\Column(name="street", type="string", length=255, nullable=false)
+	 * @Assert\Length(
+	 * 		min = 3,
+	 *    	max = 255,
+	 *    	minMessage = "L'adresse du local doit faire au minimum 3 caractères.",
+	 *   	maxMessage = "L'adresse du local doit faire au maximum 255 caractères."
+	 * )
+	 *
      */
     private $street;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="additional_adress", type="string", length=255, nullable=true, options={"default"="NULL"})
-     */
+     * @ORM\Column(name="additional_adress", type="string", length=255, nullable=true, options={"default"=NULL})
+	 * @Assert\Length(
+	 *    	max = 255,
+	 *   	maxMessage = "Le complément d'adresse du local doit faire au maximum 255 caractères."
+	 * )
+	 */
     private $additionalAdress = NULL;
 
     /**
@@ -40,7 +53,7 @@ class Adress
      *
      * @ORM\ManyToOne(targetEntity="City")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_city", referencedColumnName="id_city")
+     *   @ORM\JoinColumn(name="id_city", referencedColumnName="id_city", nullable=false)
      * })
      */
     private $idCity;
@@ -85,6 +98,5 @@ class Adress
 
         return $this;
     }
-
-
+    
 }

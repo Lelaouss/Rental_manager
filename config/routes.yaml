@@ -17,3 +17,7 @@ home:
 properties:
     path: /properties
     controller: App\Controller\PageController::properties
+
+properties_create:
+    path: /properties/create
+    controller: App\Controller\PageController::properties
