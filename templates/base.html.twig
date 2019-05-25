@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Gestionnaire locatif{% endblock %}</title>
-{#    <link rel="stylesheet" href="{{ asset('/librairies/jquery-ui-1.12.1/jquery-ui.min.css') }}">#}
     <link rel="stylesheet" href="{{ asset('/librairies/bootstrap-4.3.1-dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/librairies/toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/global.css') }}">
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
 {% block body %}{% endblock %}
 <script src="{{ asset('/librairies/jquery-3.4.1.min.js') }}"></script>
-{#<script src="{{ asset('/librairies/jquery-ui-1.12.1/jquery-ui.min.js') }}"></script>#}
-{#<script src="{{ asset('/librairies/popper.min.js') }}"></script>#}
+<script src="{{ asset('/librairies/toastr/toastr.min.js') }}"></script>
 <script src="{{ asset('/librairies/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('/js/global.js') }}"></script>
 {% block javascripts %}{% endblock %}
 </body>
 </html>

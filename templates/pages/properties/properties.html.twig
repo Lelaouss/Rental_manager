@@ -21,44 +21,30 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr data-id-property="">
-                    <td>CENTRAL FAC</td>
-                    <td>
-                        <div class="d-flex flex-column">
-                            <span>Résidence Central Fac</span>
-                            <span>7 rue des Amaryllis</span>
-                            <span>34070 Montpellier</span>
-                        </div>
-                    </td>
-                    <td>Loué depuis 8 mois</td>
-                    <td>
-                        <div class="d-flex justify-content-center properties-actions">
-                            <span class="properties-action">{{ source('@img_path/edit.svg') }}</span>
-                            <span class="properties-action">{{ source('@img_path/garbage.svg') }}</span>
-                        </div>
-                    </td>
-                </tr>
-                <tr data-id-property="">
-                    <td>LA RADIEUSE</td>
-                    <td>
-                        <div class="d-flex flex-column">
-                            <span>Résidence Central Fac</span>
-                            <span>7 rue des Amaryllis</span>
-                            <span>34090 Montpellier</span>
-                        </div>
-                    </td>
-                    <td>Loué depuis 10 mois</td>
-                    <td>
-                        <div class="d-flex justify-content-center properties-actions">
-                            <span class="properties-action">{{ source('@img_path/edit.svg') }}</span>
-                            <span class="properties-action">{{ source('@img_path/garbage.svg') }}</span>
-                        </div>
-                    </td>
-                </tr>
+                {% for property in properties %}
+                    <tr data-property-id="{{ property.idProperty }}" data-property-label="{{ property.label }}">
+                        <td>{{ property.label }}</td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <span>{{ property.idAdress.street }}</span>
+                                <span>{{ property.idAdress.additionalAdress }}</span>
+                                <span>{{ property.idAdress.idCity.zipCode }} {{ property.idAdress.idCity.name }}</span>
+                            </div>
+                        </td>
+                        <td>Loué depuis 8 mois</td>
+                        <td>
+                            <div class="d-flex justify-content-center properties-actions">
+                                <span class="properties-action properties-action-edit" data-toggle="modal" data-target="#properties-edit-modal">{{ source('@img_path/edit.svg') }}</span>
+                                <span class="properties-action properties-action-delete" data-toggle="modal" data-target="#properties-delete-modal">{{ source('@img_path/garbage.svg') }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+
 
     {# MODALES #}
     <div class="modal fade" id="properties-add-modal">
@@ -69,6 +55,40 @@
         </div>
     </div>
 
+    <div class="modal fade" id="properties-edit-modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="properties-edit-modal-content">
+                {% include 'pages/properties/properties--edit--form.html.twig' %}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="properties-delete-modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="properties-delete-modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <div class="d-flex justify-content-center w-100">
+                        <h4 class="modal-title">Suppression d'un local</h4>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <input type="hidden" id="properties-delete-modal-id" value="">
+                <input type="hidden" id="properties-delete-modal-url" value="{{ path('properties_delete') }}">
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <p id="properties-delete-modal-statement">Êtes-vous sûr de vouloir supprimer la propriété : <span id="properties-delete-modal-label"></span> ?</p>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="btn-delete-properties">SUPPRIMER</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">FERMER</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}<script src="{{ asset('/js/pages/properties.js') }}"></script>{% endblock %}

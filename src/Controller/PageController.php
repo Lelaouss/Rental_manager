@@ -2,15 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Adress;
-use App\Entity\City;
-use App\Entity\Property;
-use App\Form\AdressType;
-use App\Form\CityType;
-use App\Form\PropertyType;
-use Doctrine\Common\Persistence\ObjectManager;
+use App\Service\PropertyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -33,87 +26,28 @@ class PageController extends AbstractController
 	/**
 	 * Fonction properties
 	 * Permet l'accès à la page de gestion des locaux
-	 * Génère les formulaires de création et modification d'un local
+	 * Génère les formulaires de création et modification d'un local (propriété, adresse, ville)
 	 *
-	 * @param Request       $request
-	 * @param ObjectManager $manager
+	 * @param PropertyService $propertyService
 	 * @return Response
 	 */
-	public function properties(Request $request, ObjectManager $manager): Response
+	public function properties(PropertyService $propertyService): Response
 	{
-		// Propriété
-		$property = new Property();
-		// Adresse
-		$adress = new Adress();
-		// Ville
-		$city = new City();
+		// Récupération des formulaires
+		$forms = $propertyService->getPropertiesForms();
+		$formProperty = $forms['form_property'];
+		$formAdress = $forms['form_adress'];
+		$formCity = $forms['form_city'];
 		
-		// Création des formulaires
-		$formProperty = $this->createForm(PropertyType::class, $property);
-		$formAdress = $this->createForm(AdressType::class, $adress);
-		$formCity = $this->createForm(CityType::class, $city);
-		
-		// Gestion de la requête
-		$formProperty->handleRequest($request);
-		$formAdress->handleRequest($request);
-		$formCity->handleRequest($request);
-		
-		// Retour des formulaires
-		if ($request->isXmlHttpRequest()) {
-			if ($formProperty->isSubmitted() && $formAdress->isSubmitted() && $formCity->isSubmitted()) {
-				
-				// Un des formulaires n'est pas valide
-				if (!$formProperty->isValid() || !$formAdress->isValid() || !$formCity->isValid()) {
-					
-					// Status pour le JSON
-					$result = 0;
-					$message = "Un des formulaires n'est pas valide.";
-					$code = 200;
-					$properties = [];
-				}
-				
-				// Formulaires valides
-				if ($formProperty->isValid() && $formAdress->isValid() && $formCity->isValid()) {
-					
-					// Status pour le JSON
-					$result = 1;
-					$message = "Tout s'est passé correctement.";
-					$code = 200;
-					
-					// Récupération des propriétés
-					$propertyRepository = $manager->getRepository(Property::class);
-					$properties = $propertyRepository->findAll();
-					
-					// Reset forms
-					$property = new Property();
-					$adress = new Adress();
-					$city = new City();
-					$formProperty = $this->createForm(PropertyType::class, $property);
-					$formAdress = $this->createForm(AdressType::class, $adress);
-					$formCity = $this->createForm(CityType::class, $city);
-				}
-				
-				// Réponse
-				return $this->json([
-					'result' => $result,
-					'message' => $message,
-					'data' => [
-						'properties' => $properties,
-						'html' => $this->render('pages/properties/properties--add--form.html.twig', [
-							'form_property' => $formProperty->createView(),
-							'form_adress' => $formAdress->createView(),
-							'form_city' => $formCity->createView()
-						])
-					]
-				], $code);
-			}
-		}
+		// Récupération des toutes les propriétés existantes
+		$properties = $propertyService->getAllProperties();
 		
 		// Si pas d'envoi de formulaire
 		return $this->render('pages/properties/properties.html.twig', [
 			'form_property' => $formProperty->createView(),
 			'form_adress' => $formAdress->createView(),
-			'form_city' => $formCity->createView()
+			'form_city' => $formCity->createView(),
+			'properties' => $properties
 		]);
 	}
 }

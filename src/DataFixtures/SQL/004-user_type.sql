@@ -1,0 +1,1 @@
+INSERT INTO `user_type` (`id_user_type`, `label`, `active`) VALUES (1, 'Admin', 1), (2, 'Visitor', 1);

@@ -20,4 +20,15 @@ properties:
 
 properties_create:
     path: /properties/create
-    controller: App\Controller\PageController::properties
+    controller: App\Controller\Property\PropertyController::add
+    methods: POST
+
+properties_update:
+    path: /properties/edit
+    controller: App\Controller\Property\PropertyController::update
+    methods: POST
+
+properties_delete:
+    path: /properties/delete
+    controller: App\Controller\Property\PropertyController::ban
+    methods: POST

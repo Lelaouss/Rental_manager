@@ -2,7 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Adress;
+use App\Entity\City;
 use App\Entity\Person;
+use App\Entity\Property;
 use App\Entity\User;
 use App\Entity\UserType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -36,33 +39,53 @@ class AppFixtures extends Fixture
 	
 	public function load(ObjectManager $manager)
     {
+    	// Jeu de données obligatoire pour le fonctionnement
     	$this->loadData();
     	
-		$this->createUserType();
-		$this->createPerson();
-		$this->createUser();
+    	// Partie utilisateurs|personnes
+    	$this->userPart();
+    	
+    	// Partie locaux|adresses
+		$this->propertiesPart(6);
     }
 	
+    
+	/**
+	 * Chargement des fichiers SQL
+	 *
+	 */
+	private function loadData()
+	{
+		// Librairie pour charger les fichiers
+		$finder = new Finder();
+		$finder->in(__DIR__ . '/SQL');
+		$finder->name('*.sql');
+		$finder->files();
+		$finder->sortByName();
+		
+		foreach( $finder as $file ){
+			print "Importing: {$file->getBasename()} " . PHP_EOL;
+			
+			$sql = $file->getContents();
+			$this->_manager->getConnection()->exec($sql);
+			$this->_manager->flush();
+		}
+	}
+ 
 	
 	/**
-	 * Fonction de génération des types utilisateur
+	 * Fonction qui gère la partie utilisateur
 	 */
-	private function createUserType()
+	private function userPart()
 	{
-		$userType = new UserType();
-		$userType->setLabel('Admin');
-		$this->_manager->persist($userType);
-		$userType = new UserType();
-		$userType->setLabel('Visitor');
-		$this->_manager->persist($userType);
-		
-		$this->_manager->flush();
+		$this->createPersons();
+		$this->createUser();
 	}
 	
 	/**
 	 * Fonction de génération d'une personne
 	 */
-	private function createPerson()
+	private function createPersons()
 	{
 		$person = new Person();
 		$person
@@ -113,34 +136,38 @@ class AppFixtures extends Fixture
 		$this->_manager->flush();
 	}
 	
-	/**
-	 * Chargement des fichiers SQL
-	 *
-	 */
-	private function loadData()
+	private function propertiesPart($count)
 	{
-		// Bundle to manage file and directories
-		$finder = new Finder();
-		$finder->in(__DIR__ . '/SQL');
-		$finder->name('*.sql');
-		$finder->files();
-		$finder->sortByName();
-		
-		foreach($finder as $file) {
-			print "Importing: {$file->getBasename()} " . PHP_EOL;
-			
-			$sql = $file->getContents();
-			
-			$sqls = explode("\n", $sql);
-			
-			foreach($sqls as $sql) {
-				if ($sql != '') {
-					$this->_manager->getConnection()->exec($sql);
-				}
-			}
-			
-			$this->_manager->flush();
-		}
+		$this->createProperties($count);
 	}
 	
+	private function createAdress()
+	{
+		$city = $this->_manager->getRepository(City::class)->find($this->_faker->numberBetween('1', '39000'));
+		$adress = new Adress();
+		$adress
+			->setStreet($this->_faker->streetAddress)
+			->setAdditionalAdress($this->_faker->streetAddress)
+			->setZipCode($city->getZipCode())
+			->setIdCity($city);
+		
+		$this->_manager->persist($adress);
+		$this->_manager->flush();
+		
+		return $adress;
+	}
+	
+	private function createProperties($count)
+	{
+		for ($i=0; $i<$count; $i++) {
+			$property = new Property();
+			$property
+				->setLabel($this->_faker->streetAddress)
+				->setIdAdress($this->createAdress());
+			
+			$this->_manager->persist($property);
+		}
+		
+		$this->_manager->flush();
+	}
 }

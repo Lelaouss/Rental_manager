@@ -2,12 +2,16 @@
 
 namespace App\Service;
 
+/* TODO ajouter des try catch pour contrôler les données renseignées et gérer les erreurs */
 use App\Entity\Person;
 use App\Entity\User;
+use App\Form\PersonRegistrationType;
+use App\Form\RegistrationType;
 use App\Repository\UserTypeRepository;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-/* TODO ajouter des try catch pour contrôler les données renseignées et gérer les erreurs */
 class UserService
 {
 	const DEFAULT_USER_TYPE = "Visitor";
@@ -22,73 +26,91 @@ class UserService
 	 */
 	private $_encoder;
 	
+	/**
+	 * @var FormFactoryInterface
+	 */
+	private $_formFactory;
+	
+	/**
+	 * @var ObjectManager
+	 */
+	private $_manager;
+	
 	
 	/**
 	 * UserService constructor.
 	 * @param UserTypeRepository           $userTypeRepository
 	 * @param UserPasswordEncoderInterface $encoder
+	 * @param FormFactoryInterface         $formFactory
+	 * @param ObjectManager                $manager
 	 */
-	public function __construct(UserTypeRepository $userTypeRepository, UserPasswordEncoderInterface $encoder)
+	public function __construct(UserTypeRepository $userTypeRepository, UserPasswordEncoderInterface $encoder, FormFactoryInterface $formFactory, ObjectManager $manager)
 	{
 		$this->_userTypeRepository = $userTypeRepository;
 		$this->_encoder = $encoder;
+		$this->_formFactory = $formFactory;
+		$this->_manager = $manager;
 	}
 	
-	public function setNewUserConstraints(User $user, Person $person)
+	
+	/**
+	 * Fonction getUserForms
+	 * Génère les formulaires nécessaires à un utilisateur
+	 *
+	 * @return array
+	 */
+	public function getUserForms(): array
+	{
+		// Personne
+		$person = new Person();
+		// Utilisateur
+		$user = new User();
+		
+		// Création des formulaires
+		$formPerson = $this->_formFactory->createBuilder(PersonRegistrationType::class, $person)->getForm();
+		$formUser = $this->_formFactory->createBuilder(RegistrationType::class, $user)->getForm();
+		
+		return [
+			'person' => $person,
+			'user' => $user,
+			'form_person' => $formPerson,
+			'form_user' => $formUser
+		];
+	}
+	
+	/**
+	 * Fonction setNewUserConstraints
+	 * Permet de paramétrer toutes les contraintes obligatoires à un nouvel utilisateur lors de création
+	 *
+	 * @param User   $user
+	 * @param Person $person
+	 * @throws \Exception
+	 * @return void
+	 */
+	public function setNewUserConstraints(User $user, Person $person): void
 	{
 		// Encodage du mot de passe renseigné par le nouvel utilisateur
-		$this->setUserHashPassword($user);
-		
-		// Renseignement du type utilisateur par défaut
-		$this->setDefaultUserType($user);
-		
-		// Renseignement de la personne lié à l'utilisateur
-		$this->setPersonLinkedUser($person, $user);
-		
-		// Passage de l'utilisateur en non actif
-		$this->setNewUserUnactive($user);
-	}
-	
-	/**
-	 * Fonction setUserHashPassword
-	 * Hash le mot passe renseigné et le renseigne sur l'utilisateur passé
-	 * @param User $user
-	 */
-	private function setUserHashPassword(User $user)
-	{
 		$hash = $this->_encoder->encodePassword($user, $user->getPassword());
 		$user->setPassword($hash);
-	}
-	
-	/**
-	 * Fonction setDefaultUserType
-	 * Récupère l'id du type utilisateur par défaut et la renseigne à l'utilisateur passé
-	 * @param User $user
-	 */
-	private function setDefaultUserType(User $user)
-	{
+		
+		// Renseignement du type utilisateur par défaut
 		$userType = $this->_userTypeRepository->findOneActiveByName(self::DEFAULT_USER_TYPE);
 		$user->setIdUserType($userType);
-	}
-	
-	/**
-	 * Fonction setPersonLinkedUser
-	 * Récupère l'id du type utilisateur par défaut et la renseigne à l'utilisateur
-	 * @param Person $person
-	 * @param User   $user
-	 */
-	private function setPersonLinkedUser(Person $person, User $user)
-	{
+		
+		// Renseignement de la personne lié à l'utilisateur
 		$user->setIdPerson($person);
+		
+		// Passage de l'utilisateur en non actif
+		$user->setBanished(new \DateTime());
 	}
 	
 	/**
-	 * @param User $user
-	 * @throws \Exception
+	 * @param $object
 	 */
-	private function setNewUserUnactive(User $user)
+	public function saveObjectDB($object): void
 	{
-		$user->setBanished(new \DateTime());
+		$this->_manager->persist($object);
+		$this->_manager->flush();
 	}
 	
 }

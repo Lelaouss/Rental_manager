@@ -1,6 +1,5 @@
 #properties-content {
     background-color: var(--main-bg-color);
-    height: 800px;
 }
 
 #properties-header {
@@ -82,4 +81,8 @@ span.properties-action svg path {
 label.required:after {
     content: "*";
     color: red;
+}
+
+#properties-delete-modal-statement {
+    font-size: 1.2rem;
 }
