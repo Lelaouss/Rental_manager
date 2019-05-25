@@ -81,7 +81,7 @@ class Document
     private $idRent;
 
     /**
-     * Document constructor
+     * Constructor
      */
     public function __construct()
     {

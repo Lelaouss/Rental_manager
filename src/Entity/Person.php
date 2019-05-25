@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -139,13 +140,6 @@ class Person
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Rent", mappedBy="idGuarantor")
-     */
-    private $idRentGurantor;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
      * @ORM\ManyToMany(targetEntity="Property", mappedBy="idOwner")
      */
     private $idProperty;
@@ -166,7 +160,6 @@ class Person
     public function __construct()
     {
         $this->idRent = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idRentGurantor = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idProperty = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -350,34 +343,6 @@ class Person
         if ($this->idRent->contains($idRent)) {
             $this->idRent->removeElement($idRent);
             $idRent->removeIdTenant($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Rent[]
-     */
-    public function getIdRentGurantor(): Collection
-    {
-        return $this->idRentGurantor;
-    }
-
-    public function addIdRentGurantor(Rent $idRentGurantor): self
-    {
-        if (!$this->idRentGurantor->contains($idRentGurantor)) {
-            $this->idRentGurantor[] = $idRentGurantor;
-            $idRentGurantor->addIdGuarantor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdRentGurantor(Rent $idRentGurantor): self
-    {
-        if ($this->idRentGurantor->contains($idRentGurantor)) {
-            $this->idRentGurantor->removeElement($idRentGurantor);
-            $idRentGurantor->removeIdGuarantor($this);
         }
 
         return $this;

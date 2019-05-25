@@ -33,20 +33,22 @@ class Adress
 	 *    	minMessage = "L'adresse du local doit faire au minimum 3 caractères.",
 	 *   	maxMessage = "L'adresse du local doit faire au maximum 255 caractères."
 	 * )
-	 *
-     */
+	 */
     private $street;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="additional_adress", type="string", length=255, nullable=true, options={"default"=NULL})
-	 * @Assert\Length(
-	 *    	max = 255,
-	 *   	maxMessage = "Le complément d'adresse du local doit faire au maximum 255 caractères."
-	 * )
-	 */
-    private $additionalAdress = NULL;
+     * @ORM\Column(name="additional_adress", type="string", length=255, nullable=true)
+     */
+    private $additionalAdress;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="zip_code", type="string", length=45, nullable=true)
+     */
+    private $zipCode;
 
     /**
      * @var \City
@@ -87,6 +89,18 @@ class Adress
         return $this;
     }
 
+    public function getZipCode(): ?string
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(?string $zipCode): self
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
     public function getIdCity(): ?City
     {
         return $this->idCity;
@@ -98,5 +112,6 @@ class Adress
 
         return $this;
     }
-    
+
+
 }

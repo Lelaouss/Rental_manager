@@ -8,6 +8,7 @@ use App\Entity\UserType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -35,6 +36,8 @@ class AppFixtures extends Fixture
 	
 	public function load(ObjectManager $manager)
     {
+    	$this->loadData();
+    	
 		$this->createUserType();
 		$this->createPerson();
 		$this->createUser();
@@ -108,6 +111,36 @@ class AppFixtures extends Fixture
 		$this->_manager->persist($user);
 		
 		$this->_manager->flush();
+	}
+	
+	/**
+	 * Chargement des fichiers SQL
+	 *
+	 */
+	private function loadData()
+	{
+		// Bundle to manage file and directories
+		$finder = new Finder();
+		$finder->in(__DIR__ . '/SQL');
+		$finder->name('*.sql');
+		$finder->files();
+		$finder->sortByName();
+		
+		foreach($finder as $file) {
+			print "Importing: {$file->getBasename()} " . PHP_EOL;
+			
+			$sql = $file->getContents();
+			
+			$sqls = explode("\n", $sql);
+			
+			foreach($sqls as $sql) {
+				if ($sql != '') {
+					$this->_manager->getConnection()->exec($sql);
+				}
+			}
+			
+			$this->_manager->flush();
+		}
 	}
 	
 }

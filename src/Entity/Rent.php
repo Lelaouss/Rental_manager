@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Rent
  *
- * @ORM\Table(name="rent", indexes={@ORM\Index(name="rent_property_FK", columns={"id_property"})})
+ * @ORM\Table(name="rent", indexes={@ORM\Index(name="rent_person0_FK", columns={"id_guarantor"}), @ORM\Index(name="rent_property_FK", columns={"id_property"})})
  * @ORM\Entity(repositoryClass="App\Repository\RentRepository")
  */
 class Rent
@@ -73,6 +73,16 @@ class Rent
     private $furnished;
 
     /**
+     * @var \Person
+     *
+     * @ORM\ManyToOne(targetEntity="Person")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_guarantor", referencedColumnName="id_person")
+     * })
+     */
+    private $idGuarantor;
+
+    /**
      * @var \Property
      *
      * @ORM\ManyToOne(targetEntity="Property")
@@ -113,28 +123,12 @@ class Rent
     private $idTenant;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Person", inversedBy="idRentGurantor")
-     * @ORM\JoinTable(name="person__rent__guarantor",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="id_rent_gurantor", referencedColumnName="id_rent")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="id_guarantor", referencedColumnName="id_person")
-     *   }
-     * )
-     */
-    private $idGuarantor;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this->idDocument = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idTenant = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idGuarantor = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getIdRent(): ?int
@@ -226,6 +220,18 @@ class Rent
         return $this;
     }
 
+    public function getIdGuarantor(): ?Person
+    {
+        return $this->idGuarantor;
+    }
+
+    public function setIdGuarantor(?Person $idGuarantor): self
+    {
+        $this->idGuarantor = $idGuarantor;
+
+        return $this;
+    }
+
     public function getIdProperty(): ?Property
     {
         return $this->idProperty;
@@ -285,32 +291,6 @@ class Rent
     {
         if ($this->idTenant->contains($idTenant)) {
             $this->idTenant->removeElement($idTenant);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Person[]
-     */
-    public function getIdGuarantor(): Collection
-    {
-        return $this->idGuarantor;
-    }
-
-    public function addIdGuarantor(Person $idGuarantor): self
-    {
-        if (!$this->idGuarantor->contains($idGuarantor)) {
-            $this->idGuarantor[] = $idGuarantor;
-        }
-
-        return $this;
-    }
-
-    public function removeIdGuarantor(Person $idGuarantor): self
-    {
-        if ($this->idGuarantor->contains($idGuarantor)) {
-            $this->idGuarantor->removeElement($idGuarantor);
         }
 
         return $this;

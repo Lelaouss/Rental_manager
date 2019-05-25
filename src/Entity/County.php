@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * County
  *
- * @ORM\Table(name="county", indexes={@ORM\Index(name="IDX_58E2FF255CA5BEA7", columns={"id_country"})})
+ * @ORM\Table(name="county", indexes={@ORM\Index(name="county_country_FK", columns={"id_country"})})
  * @ORM\Entity
  */
 class County
@@ -33,7 +31,7 @@ class County
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", nullable=false)
+     * @ORM\Column(name="code", type="string", length=3, nullable=false)
      */
     private $code;
 
@@ -47,7 +45,7 @@ class County
     /**
      * @var \Country
      *
-     * @ORM\ManyToOne(targetEntity="Country", inversedBy="counties")
+     * @ORM\ManyToOne(targetEntity="Country")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_country", referencedColumnName="id_country", nullable=false)
      * })
@@ -71,12 +69,12 @@ class County
         return $this;
     }
 
-    public function getCode(): ?int
+    public function getCode(): ?string
     {
         return $this->code;
     }
 
-    public function setCode(int $code): self
+    public function setCode(string $code): self
     {
         $this->code = $code;
 
@@ -91,37 +89,6 @@ class County
     public function setActive(bool $active): self
     {
         $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|City[]
-     */
-    public function getCities(): Collection
-    {
-        return $this->cities;
-    }
-
-    public function addCity(City $city): self
-    {
-        if (!$this->cities->contains($city)) {
-            $this->cities[] = $city;
-            $city->setIdCounty($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCity(City $city): self
-    {
-        if ($this->cities->contains($city)) {
-            $this->cities->removeElement($city);
-            // set the owning side to null (unless already changed)
-            if ($city->getIdCounty() === $this) {
-                $city->setIdCounty(null);
-            }
-        }
 
         return $this;
     }

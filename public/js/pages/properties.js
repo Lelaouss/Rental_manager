@@ -1,9 +1,5 @@
 $(document).ready(function () {
 
-    $('#btn-properties-add-modal').on('click', function () {
-        $('#properties-add-form').trigger('reset');
-    });
-
     $('body').on('submit','#properties-add-form',function (event) {
         event.preventDefault();
 
@@ -16,20 +12,20 @@ $(document).ready(function () {
             data: form.serializeArray()
         })
             .done(function (data, status, xhr) {
+
                 if (status == "success") {
                     let ct = xhr.getResponseHeader("content-type") || "";
 
-                    if (ct.indexOf('html') > -1) {
-                        $('#properties-add-modal-content').empty();
-                        $('#properties-add-modal-content').append(data);
-                    }
-
+                    // Check de la réponse en JSON
                     if (ct.indexOf('json') > -1) {
+
+                        // Si OK on cache la modale et on reconstruit le tableau des locaux
                         if (data.result === 1) {
+                            buildPropertiesTable(data.data.properties);
                             $('#properties-add-modal').modal('hide');
-                            $('#properties-add-modal-content').empty();
-                            $('#properties-add-modal-content').append(data.data.template.content);
                         }
+                        $('#properties-add-modal-content').empty();
+                        $('#properties-add-modal-content').append(data.data.html.content);
                     }
                 }
             })
@@ -40,7 +36,7 @@ $(document).ready(function () {
 
 });
 
-function buildPropertiesTable() {
+function buildPropertiesTable(datas) {
     const svg = getSVG();
 
     $('#properties-table tbody').empty();

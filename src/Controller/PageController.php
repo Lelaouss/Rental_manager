@@ -62,6 +62,16 @@ class PageController extends AbstractController
 		if ($request->isXmlHttpRequest()) {
 			if ($formProperty->isSubmitted() && $formAdress->isSubmitted() && $formCity->isSubmitted()) {
 				
+				// Un des formulaires n'est pas valide
+				if (!$formProperty->isValid() || !$formAdress->isValid() || !$formCity->isValid()) {
+					
+					// Status pour le JSON
+					$result = 0;
+					$message = "Un des formulaires n'est pas valide.";
+					$code = 200;
+					$properties = [];
+				}
+				
 				// Formulaires valides
 				if ($formProperty->isValid() && $formAdress->isValid() && $formCity->isValid()) {
 					
@@ -73,7 +83,6 @@ class PageController extends AbstractController
 					// Récupération des propriétés
 					$propertyRepository = $manager->getRepository(Property::class);
 					$properties = $propertyRepository->findAll();
-					$errors = [];
 					
 					// Reset forms
 					$property = new Property();
@@ -82,36 +91,26 @@ class PageController extends AbstractController
 					$formProperty = $this->createForm(PropertyType::class, $property);
 					$formAdress = $this->createForm(AdressType::class, $adress);
 					$formCity = $this->createForm(CityType::class, $city);
-					
-					// Renvoi
-					return $this->json([
-						'result' => $result,
-						'message' => $message,
-						'data' => [
-							'properties' => $properties,
-							'errors' => $errors,
-							'html' => $this->render('pages/modal.html.twig', [
-								'form_property' => $formProperty->createView(),
-								'form_adress' => $formAdress->createView(),
-								'form_city' => $formCity->createView()
-							])
-						]
-					], $code);
 				}
 				
-				// Un des formulaires n'est pas valide
-				if (!$formProperty->isValid() || !$formAdress->isValid() || !$formCity->isValid()) {
-					return $this->render('pages/modal.html.twig', [
-						'form_property' => $formProperty->createView(),
-						'form_adress' => $formAdress->createView(),
-						'form_city' => $formCity->createView()
-					]);
-				}
+				// Réponse
+				return $this->json([
+					'result' => $result,
+					'message' => $message,
+					'data' => [
+						'properties' => $properties,
+						'html' => $this->render('pages/properties/properties--add--form.html.twig', [
+							'form_property' => $formProperty->createView(),
+							'form_adress' => $formAdress->createView(),
+							'form_city' => $formCity->createView()
+						])
+					]
+				], $code);
 			}
 		}
 		
 		// Si pas d'envoi de formulaire
-		return $this->render('pages/properties.html.twig', [
+		return $this->render('pages/properties/properties.html.twig', [
 			'form_property' => $formProperty->createView(),
 			'form_adress' => $formAdress->createView(),
 			'form_city' => $formCity->createView()

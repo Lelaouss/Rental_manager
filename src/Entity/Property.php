@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -86,11 +87,32 @@ class Property
     private $nbRooms = NULL;
 
     /**
+     * @var bool|null
+     *
+     * @ORM\Column(name="heating_type", type="boolean", nullable=true)
+     */
+    private $heatingType;
+
+    /**
+     * @var bool|null
+     *
+     * @ORM\Column(name="water_heating", type="boolean", nullable=true)
+     */
+    private $waterHeating;
+
+    /**
      * @var string|null
      *
      * @ORM\Column(name="details", type="text", length=0, nullable=true, options={"default"=NULL})
      */
     private $details = NULL;
+
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="banished", type="datetime", nullable=true)
+     */
+    private $banished;
 
     /**
      * @var \Adress
@@ -234,6 +256,30 @@ class Property
         return $this;
     }
 
+    public function getHeatingType(): ?bool
+    {
+        return $this->heatingType;
+    }
+
+    public function setHeatingType(?bool $heatingType): self
+    {
+        $this->heatingType = $heatingType;
+
+        return $this;
+    }
+
+    public function getWaterHeating(): ?bool
+    {
+        return $this->waterHeating;
+    }
+
+    public function setWaterHeating(?bool $waterHeating): self
+    {
+        $this->waterHeating = $waterHeating;
+
+        return $this;
+    }
+
     public function getDetails(): ?string
     {
         return $this->details;
@@ -242,6 +288,18 @@ class Property
     public function setDetails(?string $details): self
     {
         $this->details = $details;
+
+        return $this;
+    }
+
+    public function getBanished(): ?\DateTimeInterface
+    {
+        return $this->banished;
+    }
+
+    public function setBanished(?\DateTimeInterface $banished): self
+    {
+        $this->banished = $banished;
 
         return $this;
     }

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190409072120 extends AbstractMigration
+final class Version20190525085415 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -21,15 +21,17 @@ final class Version20190409072120 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        
-        $this->addSql('ALTER TABLE user_type CHANGE active active TINYINT(1) DEFAULT \'1\' NOT NULL');
+
+        $this->addSql('ALTER TABLE adress CHANGE id_city id_city INT NOT NULL');
+        $this->addSql('ALTER TABLE county CHANGE id_country id_country INT NOT NULL');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-        
-        $this->addSql('ALTER TABLE user_type CHANGE active active TINYINT(1) NOT NULL');
+
+        $this->addSql('ALTER TABLE adress CHANGE id_city id_city INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE county CHANGE id_country id_country INT DEFAULT NULL');
     }
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * City
  *
- * @ORM\Table(name="city", indexes={@ORM\Index(name="IDX_2D5B02345D28362", columns={"id_county"})})
+ * @ORM\Table(name="city", indexes={@ORM\Index(name="city_county_FK", columns={"id_county"})})
  * @ORM\Entity
  */
 class City
@@ -34,7 +34,7 @@ class City
      * @ORM\Column(name="zip_code", type="string", length=255, nullable=false)
      */
     private $zipCode;
-    
+
     /**
      * @var string
      *
@@ -81,6 +81,18 @@ class City
         return $this;
     }
 
+    public function getCountyCode(): ?string
+    {
+        return $this->countyCode;
+    }
+
+    public function setCountyCode(string $countyCode): self
+    {
+        $this->countyCode = $countyCode;
+
+        return $this;
+    }
+
     public function getIdCounty(): ?County
     {
         return $this->idCounty;
@@ -92,17 +104,6 @@ class City
 
         return $this;
     }
-	
-	public function getCountyCode()
-	{
-		return $this->countyCode;
-    }
-	
-	public function setCountyCode(string $countyCode)
-	{
-		$this->countyCode = $countyCode;
-		
-		return $this;
-    }
+
 
 }
