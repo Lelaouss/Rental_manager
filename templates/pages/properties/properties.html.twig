@@ -1,0 +1,101 @@
+{% extends 'skeleton.html.twig' %}
+
+{% block title %}Rental Manager - Locaux{% endblock %}
+
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('/css/pages/properties.css') }}">{% endblock %}
+
+{% block content %}
+    <div id="properties-content" class="d-flex flex-column p-5">
+        <div id="properties-header" class="d-flex justify-content-between align-items-center mb-3">
+            <button class="btn" id="btn-properties-add-modal" type="button" data-toggle="modal" data-target="#properties-add-modal">AJOUTER UN BIEN</button>
+            <h3>LOCAUX</h3>
+        </div>
+        <div id="properties-body" class="table-responsive-md">
+            <table id="properties-table" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Identification du local</th>
+                    <th>Adresse</th>
+                    <th>Occupation</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for property in properties %}
+                    {% set occupation = "" %}
+                    {% if property.purchaseDate is not empty %}
+                        {% set occupation %}
+                            Acquis depuis le {{ property.purchaseDate|date('d/m/Y') }}
+                        {% endset %}
+                    {% endif %}
+
+                    <tr data-property-id="{{ property.idProperty }}" data-property-label="{{ property.label }}">
+                        <td>{{ property.label }}</td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <span>{{ property.idAdress.street }}</span>
+                                <span>{{ property.idAdress.additionalAdress }}</span>
+                                <span>{{ property.idAdress.zipCode }} {{ property.idAdress.idCity.name }}</span>
+                            </div>
+                        </td>
+                        <td>{{ occupation }}</td>
+                        <td>
+                            <div class="d-flex justify-content-center properties-actions">
+                                <span class="properties-action properties-action-edit">{{ source('@img_path/edit.svg') }}</span>
+                                <span class="properties-action properties-action-delete" data-toggle="modal" data-target="#properties-delete-modal">{{ source('@img_path/garbage.svg') }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    {# MODALES #}
+    <div class="modal fade" id="properties-add-modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="properties-add-modal-content">
+                {% include 'pages/properties/properties--add--form.html.twig' %}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="properties-edit-modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="properties-edit-modal-content">
+                {% include 'pages/properties/properties--edit--form.html.twig' %}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="properties-delete-modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" id="properties-delete-modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <div class="d-flex justify-content-center w-100">
+                        <h4 class="modal-title">Suppression d'un local</h4>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <input type="hidden" id="properties-delete-modal-id" value="">
+                <input type="hidden" id="properties-delete-modal-url" value="{{ path('properties_delete') }}">
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <p id="properties-delete-modal-statement">Êtes-vous sûr de vouloir supprimer la propriété : <span id="properties-delete-modal-label"></span> ?</p>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="btn-delete-properties">SUPPRIMER</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">FERMER</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}<script src="{{ asset('/js/pages/properties.js') }}"></script>{% endblock %}

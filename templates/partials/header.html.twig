@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-between align-items-center m-5">
+    <h1 id="header-brand"><a href="{{ path('home') }}">Rental Manager</a></h1>
+    <h2 id="header-welcome">{{ app.request.attributes.get('_route') == "home" ? "Bienvenue " }}{% if app.user.login is defined and app.user.login is not null %}{{ app.user.login }}{% endif %}</h2>
+    <div class="d-flex align-items-center" id="header-actions">
+        <span class="header-action c-pointer"><a href="{{ path('index') }}">{{ source('@img_path/parameters.svg') }}</a></span>
+        <span class="header-action c-pointer"><a href="{{ path('logout') }}">{{ source('@img_path/disconnect.svg') }}</a></span>
+    </div>
+</div>
+
+<style>
+    #header-brand a {
+        color: var(--main-bg-color);
+    }
+
+    #header-brand a:hover {
+        color: var(--main-btn-primary-color);
+        text-decoration: none;
+    }
+
+    #header-welcome {
+        font-size: 5rem;
+    }
+
+    #header-actions span:first-of-type {
+        margin-right: 20px;
+    }
+
+    .header-action {
+        width: 50px;
+        height: auto;
+    }
+
+    .header-action a svg path {
+        fill: var(--main-bg-color);
+    }
+
+    .header-action:hover a svg path {
+        fill: var(--main-btn-primary-color);
+    }
+</style>

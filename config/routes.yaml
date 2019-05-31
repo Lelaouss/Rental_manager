@@ -1,7 +1,44 @@
 index:
     path: /
-    controller: App\Controller\LoginController::index
+    controller: App\Controller\AccountController::index
 
 login:
     path: /login
-    controller: App\Controller\LoginController::index
+    controller: App\Controller\AccountController::login
+
+logout:
+    path: /logout
+    controller: App\Controller\AccountController::logout
+
+home:
+    path: /home
+    controller: App\Controller\PageController::home
+
+properties:
+    path: /properties
+    controller: App\Controller\PageController::properties
+
+properties_create:
+    path: /properties/create
+    controller: App\Controller\PropertyController::add
+    methods: POST
+
+properties_edition:
+    path: /properties/edit/{id}
+    controller: App\Controller\PropertyController::edit
+    methods: POST
+
+properties_update:
+    path: /properties/update
+    controller: App\Controller\PropertyController::update
+    methods: POST
+
+properties_delete:
+    path: /properties/delete
+    controller: App\Controller\PropertyController::ban
+    methods: POST
+
+city_search:
+    path: /city/search
+    controller: App\Controller\CityController::searchByZipCode
+    methods: POST

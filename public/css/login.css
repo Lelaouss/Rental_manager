@@ -1,0 +1,153 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h2.action-title {
+    font-size: 3rem;
+}
+
+div#static-container {
+    position: static;
+    z-index: -1;
+    height: 460px;
+    background-color: var(--main-second-color);
+}
+
+div#absolute-container-forms {
+    position: absolute;
+    top: 131px;
+    /*left: 420px;*/
+    left: 22%;
+    max-width: 500px;
+    height: 500px;
+    background-color: var(--main-third-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 45px;
+    padding-right: 45px;
+}
+
+div#absolute-container-buttons {
+    position: absolute;
+    top: 131px;
+    /*right: 250px;*/
+    right: 19%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 45px;
+    padding-right: 45px;
+}
+
+a#forgotten-password {
+    font-family: var(--main-title-second-font);
+    font-size: 1.6rem;
+    color: var(--main-text-color);
+}
+a#forgotten-password:hover {
+    text-decoration: none;
+    color: var(--input-placeholder-color);
+}
+
+button.btn-connection {
+    border-radius: 6px;
+    font-weight: bolder;
+    border-color: var(--main-text-color);
+}
+button.btn-connection:hover {
+    color: var(--main-text-second-color);
+    border-color: var(--main-text-color);
+}
+
+button.btn-register {
+    border-radius: 6px;
+    font-weight: bolder;
+    color: var(--main-text-second-color);
+    border-color: var(--main-text-color);
+    background-color: var(--main-text-color);
+}
+button.btn-register:hover {
+    border-radius: 6px;
+    color: var(--main-text-color);
+    border-color: var(--main-text-color);
+    background-color: var(--main-second-color);
+}
+
+form input, form select {
+    background-color: var(--main-third-color) !important;
+    border-width: 0px 0px 1px 0px !important;
+    border-color: var(--input-placeholder-color) !important;
+    color: var(--main-text-color) !important;
+    padding: 0px !important;
+}
+form input:focus, form select:focus {
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+form input::placeholder {
+    color: var(--input-placeholder-color) !important;
+}
+form input::-ms-input-placeholder {
+    color: var(--input-placeholder-color) !important;
+}
+
+form span.invalid-feedback {
+    color: #b70500 !important;
+}
+
+div#block-register, div#go-connection {
+    display: none;
+}
+
+
+/*@media (min-width: 576px)  {*/
+/*    div#absolute-container-forms {*/
+/*        left: 200px;*/
+/*    }*/
+/*    div#absolute-container-buttons {*/
+/*        right: 200px;*/
+/*    }*/
+/*}*/
+/*@media (min-width: 768px)  {*/
+/*    div#absolute-container-forms {*/
+/*        left: 140px;*/
+/*    }*/
+/*    div#absolute-container-buttons {*/
+/*        right: 140px;*/
+/*    }*/
+/*}*/
+/*@media (min-width: 992px)  {*/
+/*    div#absolute-container-forms {*/
+/*        left: 160px;*/
+/*    }*/
+/*    div#absolute-container-buttons {*/
+/*        right: 160px;*/
+/*    }*/
+/*}*/
+/*@media (min-width: 1200px)  {*/
+/*    div#absolute-container-forms {*/
+/*        left: 200px;*/
+/*    }*/
+/*    div#absolute-container-buttons {*/
+/*        right: 200px;*/
+/*        !*right: 200px;*!*/
+/*    }*/
+/*}*/
+/*@media (min-width: 1550px)  {*/
+/*    div#absolute-container-forms {*/
+/*        !*left: 450px;*!*/
+/*        left: 22%;*/
+/*        max-width: 500px;*/
+/*    }*/
+/*    div#absolute-container-buttons {*/
+/*        !*right: 350px;*!*/
+/*        right: 19%;*/
+/*    }*/
+/*}*/

@@ -1,0 +1,158 @@
+/* FONTS */
+@font-face {
+    font-family: "BEYNO";
+    src: url("../fonts/BEYNO.otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Monsieur Pomme";
+    src: url("../fonts/Monsieur-Pomme.otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Caviar Dreams";
+    src: url("../fonts/CaviarDreams.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Caviar Dreams";
+    src: url("../fonts/CaviarDreams_Bold.ttf");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Caviar Dreams";
+    src: url("../fonts/CaviarDreams_Italic.ttf");
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Caviar Dreams";
+    src: url("../fonts/CaviarDreams_BoldItalic.ttf");
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* VARIABLES */
+:root {
+    --main-bg-color: #B2B2B2;
+    --main-second-color: #878F99;
+    --main-third-color: #FF7B25;
+    --main-btn-primary-color: #FF7B25;
+    --main-btn-primary-color-hover: #F8F8FF;
+    --main-btn-secondary-color: #878F99;
+    --main-btn-secondary-color-hover: #F8F8FF;
+    --main-text-color: #F8F8FF;
+    --main-text-second-color: #878F99;
+    --input-placeholder-color: rgba(248,248,255,0.6);
+    --main-title-first-font: "BEYNO";
+    --main-title-second-font: "Monsieur Pomme";
+    --main-text-font: "Modern Sans";
+    --main-text-second-font: "Caviar Dreams";
+}
+
+/* GLOBALS */
+body {
+    background-color: var(--main-bg-color);
+    font-family: var(--main-text-font);
+    color: var(--main-text-color);
+}
+
+h1 {
+    font-family: var(--main-title-first-font);
+}
+
+h2 {
+    font-family: var(--main-title-second-font);
+}
+
+h3 {
+    font-family: var(--main-title-second-font);
+}
+
+/* BUTTONS */
+.btn {
+    font-family: var(--main-text-second-font);
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 0.375rem 1.375rem;
+}
+
+button.btn-primary {
+    color: var(--main-text-color);
+    background-color: var(--main-btn-primary-color);
+    border: 2px solid var(--main-btn-primary-color);
+}
+button.btn-primary:hover {
+    color: var(--main-third-color);
+    background-color: var(--main-btn-primary-color-hover);
+    border-color: var(--main-btn-primary-color);
+}
+
+button.btn-secondary {
+    color: var(--main-text-color);
+    background-color: var(--main-btn-secondary-color);
+    border: 2px solid var(--main-btn-secondary-color);
+}
+button.btn-secondary:hover {
+    color: var(--main-second-color);
+    background-color: var(--main-btn-secondary-color-hover);
+    border-color: var(--main-btn-secondary-color);
+}
+
+.c-pointer {
+    cursor: pointer;
+}
+
+/* MODALES */
+.modal-dialog {
+    background-color: var(--main-third-color);
+    color: var(--main-text-second-color);
+    border-radius: 10px;
+}
+
+.modal-header {
+    border-bottom: 0;
+}
+
+.modal-header .modal-title {
+    color: var(--main-third-color);
+    font-family: var(--main-text-second-font);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.modal-content {
+    background-color: var(--main-text-color);
+    border: 5px solid var(--main-third-color);
+    border-radius: 10px;
+}
+
+.modal-header button.close {
+    color: var(--main-btn-secondary-color);
+    font-size: 2.5rem;
+}
+
+.modal-footer {
+    border-top: 0;
+    margin: 0 20px;
+}
+
+/* INPUTS */
+label {
+    margin-bottom: 0;
+}
+
+input {
+    border: 1px solid var(--main-bg-color);
+    border-radius: 2px;
+    /*margin: 0 5px;*/
+}

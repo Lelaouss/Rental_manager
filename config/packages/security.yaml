@@ -1,13 +1,37 @@
 security:
+    # Méthodes de hash des données
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: ~ }
+        # Données d'authentification
+        in_database:
+            entity:
+                class: App\Entity\User
+                property: login
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+
+            # Validation de l'authentification des utilisateurs
+            provider: in_database
+
+            # Route pour l'authentification et chemin de validation des données
+            form_login:
+                login_path: index
+                check_path: login
+                default_target_path: /home
+
+            # Route pour la déconnexion et page de redirection une fois déconnecté
+            logout:
+                path: logout
+                target: index
 
             # activate different ways to authenticate
 

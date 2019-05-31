@@ -1,0 +1,41 @@
+<form action="{{ path('properties_update') }}" method="post" class="form-group" id="properties-edit-form">
+
+    <!-- Modal Header -->
+    <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+            <h4 class="modal-title">Modification d'un local</h4>
+        </div>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+
+    <!-- Modal body -->
+    <div class="modal-body">
+        {{ form_widget(form_property) }}
+
+        <div class="form-group">
+            {{ form_label(form_adress.street) }}
+            {{ form_widget(form_adress.street) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form_adress.additionalAdress) }}
+            {{ form_widget(form_adress.additionalAdress) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form_adress.zipCode) }}
+            {{ form_widget(form_adress.zipCode, {'attr': {'class': 'city-search'}}) }}
+        </div>
+        {{ form_rest(form_adress) }}
+
+        <div class="form-group">
+            {{ form_label(form_city.name) }}
+            {{ form_widget(form_city.name, {'attr': {'class': 'city-select'}}) }}
+        </div>
+        {{ form_rest(form_city) }}
+    </div>
+
+    <!-- Modal footer -->
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="btn-edit-properties">MODIFIER</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">FERMER</button>
+    </div>
+</form>
