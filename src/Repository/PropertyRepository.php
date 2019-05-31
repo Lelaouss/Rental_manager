@@ -24,8 +24,9 @@ class PropertyRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->andWhere('p.banished is NULL')
             ->orderBy('p.idProperty', 'ASC')
-            ->getQuery()
-			->getResult()
+			->getQuery()
+			->setHint(\Doctrine\ORM\Query::HINT_INCLUDE_META_COLUMNS, true)
+			->getArrayResult()
         ;
     }
 }

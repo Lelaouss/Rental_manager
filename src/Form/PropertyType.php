@@ -2,9 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Person;
 use App\Entity\Property;
+use App\Repository\PersonRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -17,6 +21,7 @@ class PropertyType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+			->add('idProperty', HiddenType::class)
             ->add('label', TextType::class, $this->getConfiguration("Identification du local :"))
             ->add('constructionDate', DateType::class, $this->getConfiguration(
             	"Date de construction :",
@@ -60,6 +65,19 @@ class PropertyType extends ApplicationType
 				]
 			))
             ->add('details', TextareaType::class, $this->getConfiguration("Informations complémentaires :", "", ['required' => false]))
+            ->add('idOwner', EntityType::class, $this->getConfiguration(
+            	"Propriétaires :",
+				"",
+				[
+					'required' => true,
+					'class' => Person::class,
+					'choice_label' => 'fullName',
+					'query_builder' => function (PersonRepository $personRepository) {
+            			return $personRepository->createQueryBuilder('p')->orderBy('p.lastName', 'ASC');
+					},
+					'multiple' => true
+				]
+			))
         ;
     }
 

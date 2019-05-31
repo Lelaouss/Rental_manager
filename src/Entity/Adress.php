@@ -47,6 +47,12 @@ class Adress
      * @var string|null
      *
      * @ORM\Column(name="zip_code", type="string", length=45, nullable=true)
+	 * @Assert\Length(
+	 * 		min = 5,
+	 *    	max = 255,
+	 *    	minMessage = "Un code postal valide doit faire au minimum 5 caractères.",
+	 *   	maxMessage = "Le code postal ne doit pas excéder 45 caractères."
+	 * )
      */
     private $zipCode;
 
@@ -63,6 +69,13 @@ class Adress
     public function getIdAdress(): ?int
     {
         return $this->idAdress;
+    }
+	
+	public function setIdAdress($idAdress): self
+	{
+		$this->idAdress = $idAdress;
+		
+		return $this;
     }
 
     public function getStreet(): ?string

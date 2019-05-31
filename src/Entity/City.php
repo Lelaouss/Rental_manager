@@ -56,6 +56,13 @@ class City
     {
         return $this->idCity;
     }
+	
+	public function setIdCity($idCity): self
+	{
+		$this->idCity = $idCity;
+		
+		return $this;
+    }
 
     public function getName(): ?string
     {

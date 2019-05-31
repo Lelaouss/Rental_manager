@@ -18,6 +18,16 @@ class CityRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, City::class);
     }
+	
+	public function findByZipCode($zipCode): array
+	{
+		return $this->createQueryBuilder('c')
+			->andWhere('c.zipCode LIKE :zipCode')
+			->setParameter('zipCode', $zipCode.'%')
+			->getQuery()
+			->getResult()
+		;
+    }
 
     // /**
     //  * @return City[] Returns an array of City objects

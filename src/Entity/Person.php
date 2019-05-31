@@ -153,7 +153,13 @@ class Person
 	 * @var string
 	 */
     private $titleFamilySituation;
+	
+	/**
+	 * @var string
+	 */
+    private $fullName;
 
+    
     /**
      * Constructor
      */
@@ -430,6 +436,20 @@ class Person
 		}
 		
 		return $this;
+	}
+	
+	private function setFullName()
+	{
+		$this->setTitleCivility();
+		
+		$this->fullName = $this->titleCivility . " " . $this->firstName . " " . $this->lastName;
+	}
+	
+	public function getFullName(): string
+	{
+		$this->setFullName();
+		
+		return $this->fullName;
 	}
 	
 }

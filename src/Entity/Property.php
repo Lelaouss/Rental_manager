@@ -159,6 +159,13 @@ class Property
     {
         return $this->idProperty;
     }
+	
+	public function setIdProperty($idProperty): self
+	{
+		$this->idProperty = $idProperty;
+		
+		return $this;
+    }
 
     public function getLabel(): ?string
     {

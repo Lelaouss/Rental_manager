@@ -22,19 +22,26 @@
                 </thead>
                 <tbody>
                 {% for property in properties %}
+                    {% set occupation = "" %}
+                    {% if property.purchaseDate is not empty %}
+                        {% set occupation %}
+                            Acquis depuis le {{ property.purchaseDate|date('d/m/Y') }}
+                        {% endset %}
+                    {% endif %}
+
                     <tr data-property-id="{{ property.idProperty }}" data-property-label="{{ property.label }}">
                         <td>{{ property.label }}</td>
                         <td>
                             <div class="d-flex flex-column">
                                 <span>{{ property.idAdress.street }}</span>
                                 <span>{{ property.idAdress.additionalAdress }}</span>
-                                <span>{{ property.idAdress.idCity.zipCode }} {{ property.idAdress.idCity.name }}</span>
+                                <span>{{ property.idAdress.zipCode }} {{ property.idAdress.idCity.name }}</span>
                             </div>
                         </td>
-                        <td>Loué depuis 8 mois</td>
+                        <td>{{ occupation }}</td>
                         <td>
                             <div class="d-flex justify-content-center properties-actions">
-                                <span class="properties-action properties-action-edit" data-toggle="modal" data-target="#properties-edit-modal">{{ source('@img_path/edit.svg') }}</span>
+                                <span class="properties-action properties-action-edit">{{ source('@img_path/edit.svg') }}</span>
                                 <span class="properties-action properties-action-delete" data-toggle="modal" data-target="#properties-delete-modal">{{ source('@img_path/garbage.svg') }}</span>
                             </div>
                         </td>

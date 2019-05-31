@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-/* TODO ajouter des try catch pour contrôler les données renseignées et gérer les erreurs */
 use App\Entity\Person;
 use App\Entity\User;
 use App\Form\PersonRegistrationType;
@@ -84,8 +83,8 @@ class UserService
 	 *
 	 * @param User   $user
 	 * @param Person $person
-	 * @throws \Exception
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function setNewUserConstraints(User $user, Person $person): void
 	{
@@ -95,6 +94,9 @@ class UserService
 		
 		// Renseignement du type utilisateur par défaut
 		$userType = $this->_userTypeRepository->findOneActiveByName(self::DEFAULT_USER_TYPE);
+		if (empty($userType)) {
+			throw new \Exception("Le type utilisateur par défaut n'existe pas en BDD.");
+		}
 		$user->setIdUserType($userType);
 		
 		// Renseignement de la personne lié à l'utilisateur
@@ -105,7 +107,11 @@ class UserService
 	}
 	
 	/**
+	 * Fonction saveObjectDB
+	 * Persist et flush l'objet en BDD
+	 *
 	 * @param $object
+	 * @return void
 	 */
 	public function saveObjectDB($object): void
 	{

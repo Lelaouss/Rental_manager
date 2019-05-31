@@ -10,10 +10,27 @@
 
     <!-- Modal body -->
     <div class="modal-body">
-        {{ form_row(form_property.label) }}
         {{ form_widget(form_property) }}
-        {{ form_widget(form_adress) }}
-        {{ form_widget(form_city) }}
+
+        <div class="form-group">
+            {{ form_label(form_adress.street) }}
+            {{ form_widget(form_adress.street) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form_adress.additionalAdress) }}
+            {{ form_widget(form_adress.additionalAdress) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form_adress.zipCode) }}
+            {{ form_widget(form_adress.zipCode, {'attr': {'class': 'city-search'}}) }}
+        </div>
+        {{ form_rest(form_adress) }}
+
+        <div class="form-group">
+            {{ form_label(form_city.name) }}
+            {{ form_widget(form_city.name, {'attr': {'class': 'city-select'}}) }}
+        </div>
+        {{ form_rest(form_city) }}
     </div>
 
     <!-- Modal footer -->

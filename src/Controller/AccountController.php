@@ -30,7 +30,7 @@ class AccountController extends AbstractController
 		$forms = $userService->getUserForms();
 		
 		// Gestion de la requête
-		FormService::handleRequests($request, [$forms['form_person'], $forms['form_user']]);
+		FormService::handleRequests($request, $forms);
 		
 		// Si les formulaires personne et utilisateur ont étés envoyés et validés
 		if (($forms['form_person']->isSubmitted() && $forms['form_person']->isValid()) && ($forms['form_user']->isSubmitted() && $forms['form_user']->isValid())) {
