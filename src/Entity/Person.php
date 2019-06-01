@@ -67,6 +67,11 @@ class Person
      * @var integer
      *
      * @ORM\Column(name="civility", type="integer", nullable=false)
+	 * @Assert\Range(
+	 *     min="0",
+	 *     max="1",
+	 *     invalidMessage="La civilité d'une personne ne peut être inférieure à 0 et supèrieure à 1."
+	 * )
      */
     private $civility;
 
@@ -167,6 +172,7 @@ class Person
     {
         $this->idRent = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idProperty = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->civility = 0;
     }
 
     public function getIdPerson(): ?int
@@ -395,6 +401,9 @@ class Person
 				break;
 			case 1:
 				$this->titleCivility = self::GENDER_MALE;
+				break;
+			default:
+				$this->titleCivility = self::GENDER_FEMALE;
 				break;
 		}
 		

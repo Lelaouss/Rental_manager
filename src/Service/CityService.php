@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Repository\CityRepository;
-use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Class CityService
@@ -12,11 +11,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 class CityService
 {
 	/**
-	 * @var ObjectManager
-	 */
-	private $_manager;
-	
-	/**
 	 * @var CityRepository
 	 */
 	private $_cityRepository;
@@ -24,12 +18,10 @@ class CityService
 	
 	/**
 	 * CityService constructor.
-	 * @param ObjectManager  $manager
 	 * @param CityRepository $cityRepository
 	 */
-	public function __construct(ObjectManager $manager, CityRepository $cityRepository)
+	public function __construct(CityRepository $cityRepository)
 	{
-		$this->_manager = $manager;
 		$this->_cityRepository = $cityRepository;
 	}
 	
