@@ -43,7 +43,7 @@ php bin/console doctrine:fixtures:load
 
 Démarrer le serveur symfony :
 ```
-phph bin/console server:run
+php bin/console server:run
 ```
 
 ### Exécuter les tests
