@@ -3,7 +3,7 @@ Ce projet est un outil de gestion locative.
 Son but est de vous aider dans la gestion de vos biens (appartements, maisons...) en vous permettant l'élaboration de divers documents (bail, état des lieux, situation charges, acte de caution solidaire...).
 
 ## Prise en main
-Ces instructions vous permettront d'obtenir une copie du projet en cours d'exécution sur votre machine locale à des fins de développement et de test. Reportez-vous à la section Déploiement pour obtenir des notes sur la façon de déployer le projet sur un système actif.
+Ces instructions vous permettront d'obtenir une copie du projet en cours d'exécution sur votre machine locale à des fins de développement et de test.
 
 ### Prérequis
 - Connaître Symfony 4+ (https://symfony.com/doc/current/reference/requirements.html)
