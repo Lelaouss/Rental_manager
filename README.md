@@ -51,3 +51,8 @@ Afin d'exécuter les tests unitaires et fonctionnels :
 ```
 vendor/bin/simple-phpunit
 ```
+
+## Connexion
+Le jeux de fausses données vous a créé un utilisateur avec un rôle d'admin. Vous pouvez donc vous connecter à la plateforme avec ces données :
+- login : testeur
+- mot de passe : manager*

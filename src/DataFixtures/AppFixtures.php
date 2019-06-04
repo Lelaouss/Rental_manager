@@ -46,7 +46,7 @@ class AppFixtures extends Fixture
     	$this->userPart();
     	
     	// Partie locaux|adresses
-		$this->propertiesPart(6);
+		$this->createProperties(6);
     }
 	
     
@@ -83,37 +83,27 @@ class AppFixtures extends Fixture
 	}
 	
 	/**
-	 * Fonction de génération d'une personne
+	 * Fonction de génération de plusieurs personnes
 	 */
 	private function createPersons()
 	{
 		$person = new Person();
 		$person
-			->setFirstName('Léonce')
-			->setLastName('Piron')
-			->setMiddleName('Eyram Daniel')
+			->setFirstName('John')
+			->setLastName('Doe')
+			->setMiddleName('Mike Toto')
 			->setCivility(1)
-			->setBirthday(new \DateTime('1986-02-06'))
-			->setMail('leonce.piron@hotmail.fr')
-			->setCellPhone('0630613401')
+			->setBirthday(new \DateTime('1990-07-03'))
+			->setMail('john.doe@test.fr')
+			->setCellPhone('0102030405')
 			->setFamilySituation(0)
-			->setOccupation("Développeur web");
+			->setOccupation("Testeur de plateforme");
 		$this->_manager->persist($person);
+		$this->_manager->flush();
 		
 		for ($i=0; $i<20; $i++) {
-			$person = new Person();
-			$person
-				->setFirstName($this->_faker->firstNameMale)
-				->setLastName($this->_faker->lastName)
-				->setCivility($this->_faker->numberBetween(0, 1))
-				->setMail($this->_faker->freeEmail)
-				->setCellPhone($this->_faker->phoneNumber)
-				->setFamilySituation($this->_faker->numberBetween('0', '3'))
-				->setOccupation($this->_faker->jobTitle);
-			$this->_manager->persist($person);
-			
+			$this->createPerson();
 		}
-		$this->_manager->flush();
 	}
 	
 	/**
@@ -122,14 +112,14 @@ class AppFixtures extends Fixture
 	private function createUser()
 	{
 		$userType = $this->_manager->getRepository(UserType::class)->findOneBy(['label' => 'Admin']);
-		$person = $this->_manager->getRepository(Person::class)->findOneBy(['firstName' => 'Léonce', 'lastName' => 'Piron']);
+		$person = $this->_manager->getRepository(Person::class)->findOneBy(['firstName' => 'John', 'lastName' => 'Doe']);
 		
 		$user = new User();
-		$hash = $this->_encoder->encodePassword($user, '1234');
+		$hash = $this->_encoder->encodePassword($user, 'manager*');
 		$user
 			->setIdPerson($person)
 			->setIdUserType($userType)
-			->setLogin('lelaouss')
+			->setLogin('testeur')
 			->setPassword($hash);
 		$this->_manager->persist($user);
 		
@@ -143,7 +133,7 @@ class AppFixtures extends Fixture
 	
 	private function createAdress()
 	{
-		$city = $this->_manager->getRepository(City::class)->find($this->_faker->numberBetween('1', '39000'));
+		$city = $this->_manager->getRepository(City::class)->findOneBy(['idCounty' => $this->_faker->numberBetween('1', '101')]);
 		$adress = new Adress();
 		$adress
 			->setStreet($this->_faker->streetAddress)
@@ -157,13 +147,34 @@ class AppFixtures extends Fixture
 		return $adress;
 	}
 	
+	/**
+	 * Fonction de génération d'une personne
+	 */
+	private function createPerson()
+	{
+		$person = new Person();
+		$person
+			->setFirstName($this->_faker->firstNameMale)
+			->setLastName($this->_faker->lastName)
+			->setCivility($this->_faker->numberBetween(0, 1))
+			->setMail($this->_faker->freeEmail)
+			->setCellPhone($this->_faker->phoneNumber)
+			->setFamilySituation($this->_faker->numberBetween('0', '3'))
+			->setOccupation($this->_faker->jobTitle);
+		$this->_manager->persist($person);
+		$this->_manager->flush();
+		
+		return $person;
+	}
+	
 	private function createProperties($count)
 	{
 		for ($i=0; $i<$count; $i++) {
 			$property = new Property();
 			$property
 				->setLabel($this->_faker->streetAddress)
-				->setIdAdress($this->createAdress());
+				->setIdAdress($this->createAdress())
+				->addIdOwner($this->createPerson());
 			
 			$this->_manager->persist($property);
 		}
