@@ -7,7 +7,9 @@
 {% block content %}
     <div id="properties-content" class="d-flex flex-column p-5">
         <div id="properties-header" class="d-flex justify-content-between align-items-center mb-3">
+            {% if 'Admin' in app.user.roles %}
             <button class="btn" id="btn-properties-add-modal" type="button" data-toggle="modal" data-target="#properties-add-modal">AJOUTER UN BIEN</button>
+            {% endif %}
             <h3>LOCAUX</h3>
         </div>
         <div id="properties-body" class="table-responsive-md">
@@ -17,7 +19,9 @@
                     <th>Identification du local</th>
                     <th>Adresse</th>
                     <th>Occupation</th>
+                    {% if 'Admin' in app.user.roles %}
                     <th>Actions</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -39,12 +43,14 @@
                             </div>
                         </td>
                         <td>{{ occupation }}</td>
+                        {% if 'Admin' in app.user.roles %}
                         <td>
                             <div class="d-flex justify-content-center properties-actions">
                                 <span class="properties-action properties-action-edit">{{ source('@img_path/edit.svg') }}</span>
                                 <span class="properties-action properties-action-delete" data-toggle="modal" data-target="#properties-delete-modal">{{ source('@img_path/garbage.svg') }}</span>
                             </div>
                         </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>

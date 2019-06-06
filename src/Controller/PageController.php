@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\PropertyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class PageController
@@ -16,6 +17,7 @@ class PageController extends AbstractController
 	 * Fonction home
 	 * Permet l'accès à la page d'accueil
 	 *
+	 * @Security("has_role('Admin') or has_role('Visitor')")
 	 * @return Response
 	 */
     public function home(): Response
@@ -28,6 +30,7 @@ class PageController extends AbstractController
 	 * Permet l'accès à la page de gestion des locaux
 	 * Génère les formulaires de création et modification d'un local (propriété, adresse, ville)
 	 *
+	 * @Security("has_role('Admin') or has_role('Visitor')")
 	 * @param PropertyService $propertyService
 	 * @return Response
 	 */

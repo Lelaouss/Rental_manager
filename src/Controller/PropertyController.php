@@ -8,6 +8,7 @@ use App\Service\PropertyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class PropertyController
@@ -19,6 +20,7 @@ class PropertyController extends AbstractController
 	 * Fonction add
 	 * Permet la création d'un nouveau local
 	 *
+	 * @Security("has_role('Admin')")
 	 * @param Request         $request
 	 * @param PropertyService $propertyService
 	 * @return JsonResponse
@@ -106,6 +108,17 @@ class PropertyController extends AbstractController
 		}
 	}
 	
+	/**
+	 * Fonction edit
+	 * Génère les formulaires d'édition d'un local
+	 *
+	 * @Security("has_role('Admin')")
+	 * @param Property        $property
+	 * @param Request         $request
+	 * @param PropertyService $propertyService
+	 * @return JsonResponse
+	 * @throws \Exception
+	 */
 	public function edit(Property $property, Request $request, PropertyService $propertyService)
 	{
 		// Contrôle de la requête (AJAX seulement)
@@ -134,6 +147,7 @@ class PropertyController extends AbstractController
 	 * Fonction update
 	 * Permet la modification d'un local existant
 	 *
+	 * @Security("has_role('Admin')")
 	 * @param Request         $request
 	 * @param PropertyService $propertyService
 	 * @return JsonResponse
@@ -229,6 +243,7 @@ class PropertyController extends AbstractController
 	 * Fonction ban
 	 * Gère la suppression d'un local
 	 *
+	 * @Security("has_role('Admin')")
 	 * @param Request         $request
 	 * @param PropertyService $propertyService
 	 * @return JsonResponse

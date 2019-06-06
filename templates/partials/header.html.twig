@@ -2,7 +2,9 @@
     <h1 id="header-brand"><a href="{{ path('home') }}">Rental Manager</a></h1>
     <h2 id="header-welcome">{{ app.request.attributes.get('_route') == "home" ? "Bienvenue " }}{% if app.user.login is defined and app.user.login is not null %}{{ app.user.login }}{% endif %}</h2>
     <div class="d-flex align-items-center" id="header-actions">
+        {% if 'Admin' in app.user.roles %}
         <span class="header-action c-pointer"><a href="{{ path('index') }}">{{ source('@img_path/parameters.svg') }}</a></span>
+        {% endif %}
         <span class="header-action c-pointer"><a href="{{ path('logout') }}">{{ source('@img_path/disconnect.svg') }}</a></span>
     </div>
 </div>
