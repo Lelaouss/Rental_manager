@@ -20,7 +20,7 @@ class FormService
 	public static function checkHttpRequest(Request $request): void
 	{
 		if (!$request->isXmlHttpRequest()) {
-			throw new \Exception("La requête envoyé n'est pas acceptable !");
+			throw new \Exception("La requête envoyée n'est pas acceptable !");
 		}
 	}
 	

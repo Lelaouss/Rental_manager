@@ -121,26 +121,31 @@ class PropertyController extends AbstractController
 	 */
 	public function edit(Property $property, Request $request, PropertyService $propertyService)
 	{
-		// Contrôle de la requête (AJAX seulement)
-		FormService::checkHttpRequest($request);
-		
-		// Formulaires
-		$forms = $propertyService->getPropertiesEditForm($property);
-		
-		// Ville du local édité
-		$city = $propertyService->getPropertyCity($property);
-		
-		return $this->json([
-			'result' => 1,
-			'data' => [
-				'html' => $this->render('pages/properties/properties--edit--form.html.twig', [
-					'form_property' => $forms['form_property']->createView(),
-					'form_adress' => $forms['form_adress']->createView(),
-					'form_city' => $forms['form_city']->createView()
-				]),
-				'city' => $city
-			]
-		], 200);
+		try {
+			// Contrôle de la requête (AJAX seulement)
+			FormService::checkHttpRequest($request);
+			
+			// Formulaires
+			$forms = $propertyService->getPropertiesEditForm($property);
+			
+			// Ville du local édité
+			$city = $propertyService->getPropertyCity($property);
+			
+			return $this->json([
+				'result' => 1,
+				'data' => [
+					'html' => $this->render('pages/properties/properties--edit--form.html.twig', [
+						'form_property' => $forms['form_property']->createView(),
+						'form_adress' => $forms['form_adress']->createView(),
+						'form_city' => $forms['form_city']->createView()
+					]),
+					'city' => $city
+				]
+			], 200);
+		}
+		catch (\Exception $e) {
+			return $this->json(['error' => $e->getMessage()]);
+		}
 	}
 	
 	/**

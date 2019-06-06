@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rental Manager - Page non trouvée{% endblock %}
+
+{% block body %}
+    <div class="d-flex flex-column justify-content-center align-items-center mt-5">
+        <h2>La page que vous avez demandée n'existe pas !</h2>
+        <span class="mt-3 mb-5">ERREUR 404</span>
+        <div class="flex">
+            <button class="btn btn-primary"><a href="{{ path('home') }}">Retour à l'accueil</a></button>
+        </div>
+    </div>
+
+
+
+    <style>
+        h2 {
+            font-size: 4rem;
+        }
+
+        a {
+            color: var(--main-text-color);
+        }
+
+        a:hover {
+            color: var(--main-third-color);
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}

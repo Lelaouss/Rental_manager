@@ -26,32 +26,40 @@ class AccountController extends AbstractController
 	 */
 	public function index(Request $request, UserService $userService): Response
 	{
-		// Création des formulaires et objets
-		$forms = $userService->getUserForms();
-		
-		// Gestion de la requête
-		FormService::handleRequests($request, [$forms['form_person'], $forms['form_user']]);
-		
-		// Si les formulaires personne et utilisateur ont étés envoyés et validés
-		if (($forms['form_person']->isSubmitted() && $forms['form_person']->isValid()) && ($forms['form_user']->isSubmitted() && $forms['form_user']->isValid())) {
+		try {
+			// Création des formulaires et objets
+			$forms = $userService->getUserForms();
 			
-			// Enregistrement de la nouvelle personne en BDD
-			$userService->saveObjectDB($forms['person']);
+			// Gestion de la requête
+			FormService::handleRequests($request, [$forms['form_person'], $forms['form_user']]);
 			
-			// Préparation du nouvel utilisateur
-			$userService->setNewUserConstraints($forms['user'], $forms['person']);
+			// Si les formulaires personne et utilisateur ont étés envoyés et validés
+			if (($forms['form_person']->isSubmitted() && $forms['form_person']->isValid()) && ($forms['form_user']->isSubmitted() && $forms['form_user']->isValid())) {
+				
+				// Enregistrement de la nouvelle personne en BDD
+				$userService->saveObjectDB($forms['person']);
+				
+				// Préparation du nouvel utilisateur
+				$userService->setNewUserConstraints($forms['user'], $forms['person']);
+				
+				// Enregistrement du nouvel utilisateur en BDD
+				$userService->saveObjectDB($forms['user']);
+				
+				/* TODO gestion de l'envoi de mail pour activation du compte utilisateur */
+				/* TODO ajout d'un message d'avertissement sur l'enregistrement des données */
+			}
 			
-			// Enregistrement du nouvel utilisateur en BDD
-			$userService->saveObjectDB($forms['user']);
-			
-			/* TODO gestion de l'envoi de mail pour activation du compte utilisateur */
-			/* TODO ajout d'un message d'avertissement sur l'enregistrement des données */
+			return $this->render('account/login.html.twig', [
+				'form_person' => $forms['form_person']->createView(),
+				'form_user' => $forms['form_user']->createView()
+			]);
 		}
-		
-		return $this->render('account/login.html.twig', [
-			'form_person' => $forms['form_person']->createView(),
-			'form_user' => $forms['form_user']->createView()
-		]);
+		catch (\Exception $e) {
+			return $this->render('account/login.html.twig', [
+				'form_person' => $forms['form_person']->createView(),
+				'form_user' => $forms['form_user']->createView()
+			]);
+		}
 	}
 	
 	/**
