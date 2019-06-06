@@ -50,6 +50,7 @@
                     <div class="col-md-6 d-flex justify-content-center">
                         <a id="forgotten-password" href="#">Mot de passe oublié ?</a>
                     </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     <button type="submit" class="btn btn-secondary btn-register">SE CONNECTER</button>
                 </div>
             </form>
