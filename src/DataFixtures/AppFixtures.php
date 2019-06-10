@@ -51,8 +51,8 @@ class AppFixtures extends Fixture
 	
     
 	/**
-	 * Chargement des fichiers SQL
-	 *
+	 * Chargement des fichiers SQL présent dans le dossier /SQL
+	 * Insertion de jeu de vrais données en BDD
 	 */
 	private function loadData()
 	{
@@ -131,7 +131,11 @@ class AppFixtures extends Fixture
 		$this->createProperties($count);
 	}
 	
-	private function createAdress()
+	/**
+	 * Fonction de création d'adresse
+	 * @return Adress
+	 */
+	private function createAdress(): Adress
 	{
 		$city = $this->_manager->getRepository(City::class)->findOneBy(['idCounty' => $this->_faker->numberBetween('1', '101')]);
 		$adress = new Adress();
@@ -167,6 +171,11 @@ class AppFixtures extends Fixture
 		return $person;
 	}
 	
+	/**
+	 * Fonction de création de locaux
+	 * Crée autant de propriétés que demandé
+	 * @param $count
+	 */
 	private function createProperties($count)
 	{
 		for ($i=0; $i<$count; $i++) {
